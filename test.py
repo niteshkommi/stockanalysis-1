@@ -33,7 +33,7 @@ def HEIKIN(O, H, L, C, oldO, oldC):
 
 def main():
     start = time.time()
-    df = pd.read_csv('maruti.csv')
+    df = pd.read_csv('bajaj.csv')
     df = df.sort_values('Date' , ascending= False)
     df.reset_index(drop = True, inplace = True)
     n = 8
