@@ -238,7 +238,7 @@ def main():
                         print("Awaiting Targets")
 
                 print()
-                input("Press enter to continue ")
+                input("Press enter to continue... ")
 
             except (KeyError):
                 keyerror = True
