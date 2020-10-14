@@ -77,6 +77,7 @@ def fibonacciUp(price_max, price_min):
 def main():
     # start = time.time()
     while(True):
+        os.system(['clear', 'cls'][os.name == 'nt'])
         n = 48
         j = 0
         hikenCandle = []
@@ -87,8 +88,10 @@ def main():
         six_months = date.today() - relativedelta(months=+6)
         six_months = six_months.strftime("%d-%m-%Y")
 
-        print("----- STOCK MARKET ANALYSIS -----")
-        print("Press key q to exit")
+        print("---------------------------------")
+        print("|\tSTOCK MARKET ANALYSIS\t|")
+        print("---------------------------------")
+        print("\tPress Key q to exit")
         print()
         symbol = input("Enter a stock name:\n").upper()
 
@@ -221,7 +224,9 @@ def main():
                     print("Final Target Reached")
                 else:
                     print("Awaiting Targets")
+
             print()
+            input("Press enter to continue ")
         
         # end = time.time()
         # print(f"Runtime of the program is {end - start}")
