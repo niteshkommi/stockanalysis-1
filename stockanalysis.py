@@ -6,8 +6,8 @@ from datetime import date
 from dateutil.relativedelta import relativedelta
 from bfxhfindicators import Stochastic
 
-entryTargets = []
 
+entryTargets = []
 
 def isDoji(out):
     wicks = abs(out[1] - out[2])
@@ -83,6 +83,7 @@ def main():
         if keyerror:
             print("!!!!!! Invalid / Wrong Ticker !!!!!!")
             print()
+            keyerror = False
         n = 48
         j = 0
         hikenCandle = []
@@ -146,51 +147,57 @@ def main():
 
                 for i in range(len(stochasticHiken)):
                     if (stochasticHiken[i]['k'] < stochasticHiken[i]['d'] and stochasticHiken[i-1]['k'] > stochasticHiken[i-1]['d']):
-                        if doji[i]:
-                            if i!= 0:
-                                swingIndex = swing.index(i)
-                                if swingIndex != 0:
-                                    temp = maxMin(
-                                        hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
-                                    testList = fibonacciDown(temp[0], temp[1])
-                                    # temp = (doji[i][1] * 0.3) / 100
-                                    # stopLoss = (doji[i][1] + temp)
-                                    lastCandle = i
-                                    callTime = dateTime[i]
-                        elif doji[i-1]:
-                            if i!= 0:
-                                swingIndex = swing.index(i)
-                                if swingIndex != 0:
-                                    temp = maxMin(
-                                        hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
-                                    testList = fibonacciDown(temp[0], temp[1])
-                                    # temp = (doji[i-1][1] * 0.3) / 100
-                                    # stopLoss = (doji[i-1][1] + temp)
-                                    lastCandle = i
-                                    callTime = dateTime[i]
+                        try:
+                            if doji[i]:
+                                if i!= 0:
+                                    swingIndex = swing.index(i)
+                                    if swingIndex != 0:
+                                        temp = maxMin(
+                                            hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
+                                        testList = fibonacciDown(temp[0], temp[1])
+                                        # temp = (doji[i][1] * 0.3) / 100
+                                        # stopLoss = (doji[i][1] + temp)
+                                        lastCandle = i
+                                        callTime = dateTime[i]
+                            elif doji[i-1] or doji[i+1] or doji[i+2]:
+                                if i!= 0:
+                                    swingIndex = swing.index(i)
+                                    if swingIndex != 0:
+                                        temp = maxMin(
+                                            hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
+                                        testList = fibonacciDown(temp[0], temp[1])
+                                        # temp = (doji[i-1][1] * 0.3) / 100
+                                        # stopLoss = (doji[i-1][1] + temp)
+                                        lastCandle = i
+                                        callTime = dateTime[i]
+                        except (IndexError):
+                            pass
                     elif (stochasticHiken[i]['k'] > stochasticHiken[i]['d'] and stochasticHiken[i-1]['k'] < stochasticHiken[i-1]['d']):
-                        if doji[i]:
-                            if i!= 0:
-                                swingIndex = swing.index(i)
-                                if swingIndex > 0:
-                                    temp = maxMin(
-                                        hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
-                                    testList = fibonacciUp(temp[0], temp[1])
-                                    # temp = (doji[i][2] * 0.3) / 100
-                                    # stopLoss = (doji[i][2] - temp)
-                                    lastCandle = i
-                                    callTime = dateTime[i]
-                        elif doji[i-1]:
-                            if i != 0:
-                                swingIndex = swing.index(i)
-                                if swingIndex > 0:
-                                    temp = maxMin(
-                                        hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
-                                    testList = fibonacciUp(temp[0], temp[1])
-                                    # temp = (doji[i-1][2] * 0.3) / 100
-                                    # stopLoss = (doji[i-1][2] - temp)
-                                    lastCandle = i
-                                    callTime = dateTime[i]
+                        try: 
+                            if doji[i]:
+                                if i!= 0:
+                                    swingIndex = swing.index(i)
+                                    if swingIndex > 0:
+                                        temp = maxMin(
+                                            hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
+                                        testList = fibonacciUp(temp[0], temp[1])
+                                        # temp = (doji[i][2] * 0.3) / 100
+                                        # stopLoss = (doji[i][2] - temp)
+                                        lastCandle = i
+                                        callTime = dateTime[i]
+                            elif doji[i-1] or doji[i+1] or doji[i+2]:
+                                if i != 0:
+                                    swingIndex = swing.index(i)
+                                    if swingIndex > 0:
+                                        temp = maxMin(
+                                            hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
+                                        testList = fibonacciUp(temp[0], temp[1])
+                                        # temp = (doji[i-1][2] * 0.3) / 100
+                                        # stopLoss = (doji[i-1][2] - temp)
+                                        lastCandle = i
+                                        callTime = dateTime[i]
+                        except (IndexError):
+                            pass
 
                 os.system(['clear', 'cls'][os.name == 'nt'])  
                 print("-----------------------------------------")
@@ -209,33 +216,36 @@ def main():
                 print("| Target-4 \t|\t", round(testList[-1][4],2), "\t|")
                 print("-----------------------------------------")
 
-                h_l = maxMin(hikenCandle[lastCandle + 4:])
-                if (testList[-1][0] > testList[-1][5]):
-                    if (h_l[0] >= testList[-1][1] and h_l[0] < testList[-1][2]):
-                        print("Target 1 Reached")
-                    elif (h_l[0] >= testList[-1][2] and h_l[0] < testList[-1][3]):
-                        print("Target 2 Reached")
-                    elif (h_l[0] >= testList[-1][3]) and h_l[0] < testList[-1][4]:
-                        print("Target 3 Reached")
-                    elif (h_l[0] >= testList[-1][4]):
-                        print("Final Target Reached")
-                    elif (h_l[1] <= testList[-1][5]):
-                        print("Stop Loss has occured")
+                try:
+                    h_l = maxMin(hikenCandle[lastCandle + 5:])
+                    if (testList[-1][0] > testList[-1][5]):
+                        if (h_l[0] >= testList[-1][1] and h_l[0] < testList[-1][2]):
+                            print("Target 1 Reached")
+                        elif (h_l[0] >= testList[-1][2] and h_l[0] < testList[-1][3]):
+                            print("Target 2 Reached")
+                        elif (h_l[0] >= testList[-1][3]) and h_l[0] < testList[-1][4]:
+                            print("Target 3 Reached")
+                        elif (h_l[0] >= testList[-1][4]):
+                            print("Final Target Reached")
+                        elif (h_l[1] <= testList[-1][5]):
+                            print("Stop Loss has occured")
+                        else:
+                            print("Awaiting Targets")
                     else:
-                        print("Awaiting Targets")
-                else:
-                    if (h_l[1] <= testList[-1][1] and h_l[1] > testList[-1][2]):
-                        print("Target 1 Reached")
-                    elif (h_l[1] <= testList[-1][2] and h_l[1] > testList[-1][3]):
-                        print("Target 2 Reached")
-                    elif (h_l[1] <= testList[-1][3]) and h_l[1] > testList[-1][4]:
-                        print("Target 3 Reached")
-                    elif (h_l[1] <= testList[-1][4]):
-                        print("Final Target Reached")
-                    elif (h_l[0] >= testList[-1][5]):
-                        print("Stop Loss has occured")
-                    else:
-                        print("Awaiting Targets")
+                        if (h_l[1] <= testList[-1][1] and h_l[1] > testList[-1][2]):
+                            print("Target 1 Reached")
+                        elif (h_l[1] <= testList[-1][2] and h_l[1] > testList[-1][3]):
+                            print("Target 2 Reached")
+                        elif (h_l[1] <= testList[-1][3]) and h_l[1] > testList[-1][4]:
+                            print("Target 3 Reached")
+                        elif (h_l[1] <= testList[-1][4]):
+                            print("Final Target Reached")
+                        elif (h_l[0] >= testList[-1][5]):
+                            print("Stop Loss has occured")
+                        else:
+                            print("Awaiting Targets")
+                except(ValueError):
+                    print("Awaiting Targets")
 
                 print()
                 input("Press enter to continue... ")
