@@ -1,0 +1,76 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="dashboard-wrapper p-3"></div>
+    <div class="search-form-wrapper">
+         <form method="POST" class="form-inline align-content-end">
+            <div class="col-auto border-0">
+                <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+                    <option selected disabled>TIME FRAME</option>
+                    <optgroup label="HOURS">
+                        <option value="day">1 HOUR</option>
+                        <option value="week">2 HOURS</option>
+                        <option value="month">3 HOURS</option>
+                        <option value="month">4 HOURS</option>
+                    </optgroup>
+                    <optgroup label="DAYS">
+                        <option value="day">1 DAY</option>
+                        <option value="week">1 WEEK</option>
+                        <option value="month">1 MONTH</option>
+                    </optgroup>
+                </select>
+            </div>
+            {% csrf_token %}
+            <input type="search" name="ticker" placeholder="Enter a Ticker" class="form-control mb-3 mr-sm-2"
+                aria-label="Search" required autofocus="true"> 
+            <button type="submit" class="btn btn-outline-success my-5 my-sm-0">SEARCH</button>
+        </form>
+        {% if keyerror %}
+        <div class="alert alert-warning text-center">
+            <strong>{{ keyerror }}</strong>
+        </div>
+        {% endif %}
+        {% if symbol %}
+        <div class="alert alert-success text-center">
+            <strong>{{ status }}</strong>
+        </div>
+        <table class="table table-bordered text-center">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col">SYMBOL</th>
+                    <th scope="col">DATE</th>
+                    {% if call > stop_loss %}
+                    <th scope="col">BUY ABOVE</th>
+                    {% else %}
+                    <th scope="col">SELL BELOW</th>
+                    {% endif %}
+                    <th scope="col">STOP LOSS</th>
+                    <th scope="col">TARGET 1</th>
+                    <th scope="col">TARGET 2</th>
+                    <th scope="col">TARGET 3</th>
+                    <th scope="col">TARGET 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">{{ symbol }}</th>
+                    <td>{{ date }}</td>
+                    {% if call > stop_loss %}
+                    <td> <strong class="text-success">{{ call }} <i class="fas fa-arrow-up"></i> </strong> </td>
+                    {% else %}
+                    <td> <strong class="text-success">{{ call }} <i class="fas fa-arrow-down"></i> </strong> </td>
+                    {% endif %}
+                    <td> <strong class="text-danger">{{ stop_loss }}</strong> </td>
+                    <td> {{ target_1 }}</td>
+                    <td> {{ target_2 }}</td>
+                    <td> {{ target_3 }}</td>
+                    <td> {{ target_4 }}</td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

@@ -116,6 +116,7 @@ def main():
                 highPrice = historical_data['CH_TRADE_HIGH_PRICE']
                 lowPrice = historical_data['CH_TRADE_LOW_PRICE']
                 closePrice = historical_data['CH_CLOSING_PRICE']
+                print(historical_data['CH_CLOSING_PRICE'][0])
 
                 candle = HEIKIN(openPrice[n], highPrice[n],
                                 lowPrice[n], closePrice[n], openPrice[n+1],

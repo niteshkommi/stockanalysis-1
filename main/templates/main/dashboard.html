@@ -1,0 +1,114 @@
+{% extends 'main/base.html' %}
+{% load static %}
+{% block content %}
+    
+<div class="dashboard-wrapper p-3">
+    <div class="stock-list-wrapper">
+        <form class="form-inline">
+            <div class="col-auto my-1 p-0 border-0">
+                <select class="custom-select mr-sm-2 bg-light" id="inlineFormCustomSelect">
+                    <option selected disabled>SELECT TYPE </option>
+                    <option value="day">EQUITY</option>
+                    <option value="week">EQUITY DERIVATIVES</option>
+                    <option value="month">CURRENCY DERIVATIVES</option>
+                    <option value="month">FOREX</option>
+                </select>
+            </div>
+            <div class="col-auto my-1 border-0">
+                <select class="custom-select mr-sm-2 bg-light" id="inlineFormCustomSelect">
+                    <option selected disabled>SELECT TIME FRAME </option>
+                    <optgroup label="HOURS">
+                        <option value="day">1 HOUR</option>
+                        <option value="week">2 HOURS</option>
+                        <option value="month">3 HOURS</option>
+                        <option value="month">4 HOURS</option>
+                    </optgroup>
+                    <optgroup label="DAYS">
+                        <option value="day">1 DAY</option>
+                        <option value="week">1 WEEK</option>
+                        <option value="month">1 MONTH</option>
+                    </optgroup>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-raised btn-primary my-2 my-sm-0">scan</button>
+        </form>
+        <div class="row">
+            <div class="list-left-wrapper col-12 pl-3 pr-3">
+                <h6 class="text-success mb-3"><strong><u>BUY CALLS:</u></strong></h6>
+                <table class="table table-small table-bordered table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">SYMBOL</th>
+                            <th scope="col">CLOSING PRICE</th>
+                            <th scope="col">BUY ABOVE</th>
+                            <th scope="col">STOP LOSS</th>
+                            <th scope="col">TARGET 1</th>
+                            <th scope="col">TARGET 2</th>
+                            <th scope="col">TARGET 3</th>
+                            <th scope="col">TARGET 4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if list_buy %}
+                            {% for items in list_buy %}
+                            <tr>
+                                <th scope="row">{{ items.7 }}</th>
+                                <td> {{ items.6 }} </td>
+                                <td> <strong class="text-success"> {{ items.0 }} </td>
+                                <td> {{ items.5 }}</td>
+                                <td> {{ items.1 }}</td>
+                                <td> {{ items.2 }}</td>
+                                <td> {{ items.3 }}</td>
+                                <td> {{ items.4 }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="8">No Records Found</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="list-right-wrapper col-12 pl-3 pr-3">
+                <h6 class="text-danger mb-3"><strong><u>SELL CALLS:</u></strong></h6>
+                <table class="table table-small table-bordered table-hover text-center">
+                    <thead>
+                        <tr>
+                            <th scope="col">SYMBOL</th>
+                            <th scope="col">CLOSING PRICE</th>
+                            <th scope="col">SELL BELOW</th>
+                            <th scope="col">STOP LOSS</th>
+                            <th scope="col">TARGET 1</th>
+                            <th scope="col">TARGET 2</th>
+                            <th scope="col">TARGET 3</th>
+                            <th scope="col">TARGET 4</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if list_sell %}
+                            {% for items in list_sell %}
+                            <tr>
+                                <th scope="row">{{ items.7 }}</th>
+                                <td> {{ items.6 }} </td>
+                                <td> <strong class="text-danger"> {{ items.0 }} </td>
+                                <td> {{ items.5 }}</td>
+                                <td> {{ items.1 }}</td>
+                                <td> {{ items.2 }}</td>
+                                <td> {{ items.3 }}</td>
+                                <td> {{ items.4 }}</td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="7">No Records Found</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

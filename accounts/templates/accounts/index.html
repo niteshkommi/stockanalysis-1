@@ -1,0 +1,18 @@
+{% extends 'accounts/base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+{% block title %} Stock Analysis and Prediction {% endblock %}
+{% block content %}
+
+<div class="wrapper">
+    <div class="landing-wrapper">
+        <h2>
+            Stock Analysis and Prediction System
+        </h2>
+        <img src="{% static 'images/analysis.svg' %}" alt=""> <br>
+        <a href="{% url 'login' %}">Get Started</a>
+        <a href="#">About Us</a>
+    </div>
+</div>
+
+{% endblock %}
