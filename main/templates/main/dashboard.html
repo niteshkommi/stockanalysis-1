@@ -4,7 +4,7 @@
     
 <div class="dashboard-wrapper p-3">
     <div class="stock-list-wrapper">
-        <form class="form-inline">
+        <!-- <form class="form-inline">
             <div class="col-auto my-1 p-0 border-0">
                 <select class="custom-select mr-sm-2 bg-light" id="inlineFormCustomSelect">
                     <option selected disabled>SELECT TYPE </option>
@@ -31,7 +31,7 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-raised btn-primary my-2 my-sm-0">scan</button>
-        </form>
+        </form> -->
         <div class="row">
             <div class="list-left-wrapper col-12 pl-3 pr-3">
                 <h6 class="text-success mb-3"><strong><u>BUY CALLS:</u></strong></h6>
@@ -49,18 +49,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% if list_buy %}
-                            {% for items in list_buy %}
-                            <tr>
-                                <th scope="row">{{ items.7 }}</th>
-                                <td> {{ items.6 }} </td>
-                                <td> <strong class="text-success"> {{ items.0 }} </td>
-                                <td> {{ items.5 }}</td>
-                                <td> {{ items.1 }}</td>
-                                <td> {{ items.2 }}</td>
-                                <td> {{ items.3 }}</td>
-                                <td> {{ items.4 }}</td>
-                            </tr>
+                        {% if stock_data %}
+                            {% for stocks in stock_data %}
+                                {% if stocks.call > stocks.stopLoss %}
+                                    <tr>
+                                        <th scope="row">{{ stocks.symbol }}</th>
+                                        <td> {{ stocks.closePrice }} </td>
+                                        <td> <strong class="text-success"> {{ stocks.call }} </td>
+                                        <td> {{ stocks.stopLoss }}</td>
+                                        <td> {{ stocks.Target1 }}</td>
+                                        <td> {{ stocks.Target2 }}</td>
+                                        <td> {{ stocks.Target3 }}</td>
+                                        <td> {{ stocks.Target4 }}</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                         {% else %}
                             <tr>
@@ -86,22 +88,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% if list_sell %}
-                            {% for items in list_sell %}
-                            <tr>
-                                <th scope="row">{{ items.7 }}</th>
-                                <td> {{ items.6 }} </td>
-                                <td> <strong class="text-danger"> {{ items.0 }} </td>
-                                <td> {{ items.5 }}</td>
-                                <td> {{ items.1 }}</td>
-                                <td> {{ items.2 }}</td>
-                                <td> {{ items.3 }}</td>
-                                <td> {{ items.4 }}</td>
-                            </tr>
+                        {% if stock_data %}
+                            {% for stocks in stock_data %}
+                                {% if stocks.call < stocks.stopLoss %}
+                                    <tr>
+                                        <th scope="row">{{ stocks.symbol }}</th>
+                                        <td> {{ stocks.closePrice }} </td>
+                                        <td> <strong class="text-danger"> {{ stocks.call }} </td>
+                                        <td> {{ stocks.stopLoss }}</td>
+                                        <td> {{ stocks.Target1 }}</td>
+                                        <td> {{ stocks.Target2 }}</td>
+                                        <td> {{ stocks.Target3 }}</td>
+                                        <td> {{ stocks.Target4 }}</td>
+                                    </tr>
+                                {% endif %}
                             {% endfor %}
                         {% else %}
                             <tr>
-                                <td colspan="7">No Records Found</td>
+                                <td colspan="8">No Records Found</td>
                             </tr>
                         {% endif %}
                     </tbody>

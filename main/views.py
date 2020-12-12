@@ -1,16 +1,17 @@
 from django.shortcuts import render,redirect
 import pandas as pd
 import numpy as np
-import time
-import os
-from nsepython import *
-from datetime import date
-from dateutil.relativedelta import relativedelta
 from bfxhfindicators import Stochastic
 from django.contrib.auth.decorators import login_required
 
-entryTargets = []
+import datetime
+import requests
+from .models import endOfDay
 
+entryTargets = []
+params = {
+    'access_key': 'd0f9f1d896641cb03a9849109b690917'
+}
 
 def isDoji(out):
     wicks = abs(out[1] - out[2])
@@ -78,36 +79,39 @@ def fibonacciUp(price_max, price_min):
 
     return entryTargets
 
-
-@login_required(login_url='/')
-def dashboard(request):
-
-    symbols = ['SBIN','HDFCBANK']
-    list_test_buy = []
-    list_test_sell = []
+def Computation():
+    symbols = ['SBIN','BAJFINANCE','ULTRACEMCO','RELIANCE','MARUTI','TCS','PEL','INFY','TATASTEEL',
+                'ASIANPAINT','GAIL','ADANIPORTS','BPCL'
+    ]
 
     for symbol in symbols:
         n = 48
         j = 0
+        openPrice = []
+        highPrice = []
+        lowPrice = []
+        closePrice = []
+        dates = []
+        last_closedPrice = 0
         hikenCandle = []
         doji = []
         swing = []
         dateTime = []
-        today_date = date.today().strftime("%d-%m-%Y")
-        six_months = date.today() - relativedelta(months=+6)
-        six_months = six_months.strftime("%d-%m-%Y")
+        closedPrice = []
 
         try:
-            fetch_url = "https://www.nseindia.com/api/historical/cm/equity?symbol=" + \
-                str(symbol)+"&series=[%22EQ%22]&from=" + \
-                str(six_months)+"&to="+str(today_date)+""
-            historical_data = nsefetch(fetch_url)
-            historical_data = pd.DataFrame(historical_data['data'])
-            openPrice = historical_data['CH_OPENING_PRICE']
-            highPrice = historical_data['CH_TRADE_HIGH_PRICE']
-            lowPrice = historical_data['CH_TRADE_LOW_PRICE']
-            closePrice = historical_data['CH_CLOSING_PRICE']
-            curr_date = historical_data['mTIMESTAMP'][0]
+            api_result = requests.get(
+                'http://api.marketstack.com/v1/tickers/'+symbol+'.XNSE/eod', params)
+
+            api_response = api_result.json()
+            
+            for stock_data in api_response['data']['eod']:  
+                openPrice.append(stock_data['open'])
+                highPrice.append(stock_data['high'])
+                lowPrice.append(stock_data['low'])
+                closePrice.append(stock_data['close'])
+                dates.append(stock_data['date'])
+            curr_date = api_response['data']['eod'][0]['date']
 
             candle = HEIKIN(openPrice[n], highPrice[n],
                             lowPrice[n], closePrice[n], openPrice[n+1],
@@ -120,7 +124,8 @@ def dashboard(request):
                                 closePrice[i], hikenCandle[j][0], hikenCandle[j][3])
 
                 hikenCandle.append(candle)
-                dateTime.append(historical_data['mTIMESTAMP'][i])
+                dateTime.append(dates[i])
+                closedPrice.append(closePrice[i])
                 j += 1
 
             stochasticHiken = stochastic(hikenCandle)
@@ -131,6 +136,7 @@ def dashboard(request):
 
             del doji[:4]
             del dateTime[:3]
+            del closedPrice[:3]
 
             for i in range(1, len(stochasticHiken)):
                 if ((stochasticHiken[i]['k'] < stochasticHiken[i]['d']) and stochasticHiken[i-1]['k'] > stochasticHiken[i-1]['d']) or ((stochasticHiken[i]['k'] > stochasticHiken[i]['d']) and stochasticHiken[i-1]['k'] < stochasticHiken[i-1]['d']):
@@ -149,6 +155,8 @@ def dashboard(request):
                                         temp[0], temp[1])
                                     lastCandle = i
                                     callTime = dateTime[i]
+                                    hiken_closedPrice = hikenCandle[i+4][3]
+                                    last_closedPrice = closedPrice[i]
                         elif doji[i-1] or doji[i+1] or doji[i+2]:
                             if i != 0:
                                 swingIndex = swing.index(i)
@@ -159,6 +167,8 @@ def dashboard(request):
                                         temp[0], temp[1])
                                     lastCandle = i
                                     callTime = dateTime[i]
+                                    hiken_closedPrice = hikenCandle[i+4][3]
+                                    last_closedPrice = closedPrice[i]
                     except (IndexError):
                         pass
                 elif (stochasticHiken[i]['k'] > stochasticHiken[i]['d'] and stochasticHiken[i-1]['k'] < stochasticHiken[i-1]['d']):
@@ -173,6 +183,8 @@ def dashboard(request):
                                         temp[0], temp[1])
                                     lastCandle = i
                                     callTime = dateTime[i]
+                                    hiken_closedPrice = hikenCandle[i+4][3]
+                                    last_closedPrice = closedPrice[i]
                         elif doji[i-1] or doji[i+1] or doji[i+2]:
                             if i != 0:
                                 swingIndex = swing.index(i)
@@ -183,205 +195,125 @@ def dashboard(request):
                                         temp[0], temp[1])
                                     lastCandle = i
                                     callTime = dateTime[i]
+                                    hiken_closedPrice = hikenCandle[i+4][3]
+                                    last_closedPrice = closedPrice[i]
                     except (IndexError):
                         pass
 
+
         except (KeyError):
             keyerror = "Please provide a correct ticker"
-            context = {"keyerror": keyerror}
+        
+        h_l = maxMin(hikenCandle[lastCandle + 5:])
 
-        for i in range(len(testList[-1])):
-            testList[-1][i] = round(testList[-1][i],2)
 
-        testList[-1].append(historical_data['CH_CLOSING_PRICE'][0])
+        # for i in range(len(testList[-1])):
+        #     testList[-1][i] = round(testList[-1][i],2)
+
         testList[-1].append(symbol)
+        last_closedPrice = round(last_closedPrice,2)
+
+        # Adjusting the difference
+        diff = round(hiken_closedPrice - testList[-1][0], 2)
+        for i in range(5):
+            testList[-1][i] = round(testList[-1][i] + diff, 2)
+
+        
+        if endOfDay.objects.filter(symbol=symbol).exists():
+            data = endOfDay.objects.get(symbol=symbol)
+            data.date = callTime[:10] 
+            data.currDate = curr_date[:10]
+            data.closePrice = api_response['data']['eod'][0]['close']
+            data.call = testList[-1][0]
+            data.stopLoss = testList[-1][5]
+            data.Target1 = testList[-1][1]
+            data.Target2 = testList[-1][2]
+            data.Target3 = testList[-1][3]
+            data.Target4 = testList[-1][4]
+            data.high = h_l[0]
+            data.low = h_l[1]
+        
+        else:
+            data = endOfDay(symbol=symbol, date=callTime[:10], currDate=curr_date[:10], closePrice=api_response['data']['eod'][0]['close'],
+                                call=testList[-1][0], stopLoss=testList[-1][5], Target1=testList[-1][1], Target2=testList[-1][2], Target3=testList[-1][3], Target4=testList[-1][4],
+                                high = h_l[0],low=h_l[1]
+                                )
+
+        data.save()
 
 
-        if testList[-1][0] > testList[-1][5] and callTime == curr_date:
-            list_test_buy.append(testList[-1])
-        elif testList[-1][0] < testList[-1][5] and callTime == curr_date:
-            list_test_sell.append(testList[-1])
+@login_required(login_url='/')
+def dashboard(request):
 
-
+    # Computation()
+    currDate = endOfDay.objects.filter(pk='SBIN').values('currDate')[0]['currDate']
+    stock_data = endOfDay.objects.all().filter(date=currDate)
     context = {
-        "list_buy": list_test_buy,
-        "list_sell": list_test_sell
+        'stock_data': stock_data
     }
+
     return render(request, 'main/dashboard.html', context)
 
 
 @login_required(login_url='/')
 def search(request):
+
     if request.method == 'POST':
+        status = ""
 
-        symbol = request.POST.get('ticker')
+        symbol = request.POST.get('ticker').upper()
 
-        n = 48
-        j = 0
-        hikenCandle = []
-        doji = []
-        swing = []
-        dateTime = []
-        today_date = date.today().strftime("%d-%m-%Y")
-        six_months = date.today() - relativedelta(months=+6)
-        six_months = six_months.strftime("%d-%m-%Y")
+        stock_data = endOfDay.objects.all().filter(pk=symbol)
 
-        try:
-            fetch_url = "https://www.nseindia.com/api/historical/cm/equity?symbol=" + \
-                str(symbol)+"&series=[%22EQ%22]&from=" + \
-                str(six_months)+"&to="+str(today_date)+""
-            historical_data = nsefetch(fetch_url)
-            historical_data = pd.DataFrame(historical_data['data'])
-            openPrice = historical_data['CH_OPENING_PRICE']
-            highPrice = historical_data['CH_TRADE_HIGH_PRICE']
-            lowPrice = historical_data['CH_TRADE_LOW_PRICE']
-            closePrice = historical_data['CH_CLOSING_PRICE']
+        if stock_data:
+            call        = endOfDay.objects.filter(pk=symbol).values('call')[0]['call']
+            stopLoss    = endOfDay.objects.filter(pk=symbol).values('stopLoss')[0]['stopLoss']
+            Target1     = endOfDay.objects.filter(pk=symbol).values('Target1')[0]['Target1']
+            Target2     = endOfDay.objects.filter(pk=symbol).values('Target2')[0]['Target2']
+            Target3     = endOfDay.objects.filter(pk=symbol).values('Target3')[0]['Target3']
+            Target4     = endOfDay.objects.filter(pk=symbol).values('Target4')[0]['Target4']
+            high        = endOfDay.objects.filter(pk=symbol).values('high')[0]['high']
+            low         = endOfDay.objects.filter(pk=symbol).values('low')[0]['low']
 
-            candle = HEIKIN(openPrice[n], highPrice[n],
-                            lowPrice[n], closePrice[n], openPrice[n+1],
-                            closePrice[n+1])
-
-            hikenCandle.append(candle)
-
-            for i in range(n-1, -1, -1):
-                candle = HEIKIN(openPrice[i], highPrice[i], lowPrice[i],
-                                closePrice[i], hikenCandle[j][0], hikenCandle[j][3])
-
-                hikenCandle.append(candle)
-                dateTime.append(historical_data['mTIMESTAMP'][i])
-                j += 1
-
-            stochasticHiken = stochastic(hikenCandle)
-            del stochasticHiken[:4]
-
-            for i in hikenCandle:
-                doji.append(isDoji(i))
-
-            del doji[:4]
-            del dateTime[:3]
-
-            for i in range(1, len(stochasticHiken)):
-                if ((stochasticHiken[i]['k'] < stochasticHiken[i]['d']) and stochasticHiken[i-1]['k'] > stochasticHiken[i-1]['d']) or ((stochasticHiken[i]['k'] > stochasticHiken[i]['d']) and stochasticHiken[i-1]['k'] < stochasticHiken[i-1]['d']):
-                    swing.append(i)
-
-            for i in range(len(stochasticHiken)):
-                if (stochasticHiken[i]['k'] < stochasticHiken[i]['d'] and stochasticHiken[i-1]['k'] > stochasticHiken[i-1]['d']):
-                    try:
-                        if doji[i]:
-                            if i != 0:
-                                swingIndex = swing.index(i)
-                                if swingIndex != 0:
-                                    temp = maxMin(
-                                        hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
-                                    testList = fibonacciDown(
-                                        temp[0], temp[1])
-                                    # temp = (doji[i][1] * 0.3) / 100
-                                    # stopLoss = (doji[i][1] + temp)
-                                    lastCandle = i
-                                    callTime = dateTime[i]
-                        elif doji[i-1] or doji[i+1] or doji[i+2]:
-                            if i != 0:
-                                swingIndex = swing.index(i)
-                                if swingIndex != 0:
-                                    temp = maxMin(
-                                        hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
-                                    testList = fibonacciDown(
-                                        temp[0], temp[1])
-                                    # temp = (doji[i-1][1] * 0.3) / 100
-                                    # stopLoss = (doji[i-1][1] + temp)
-                                    lastCandle = i
-                                    callTime = dateTime[i]
-                    except (IndexError):
-                        pass
-                elif (stochasticHiken[i]['k'] > stochasticHiken[i]['d'] and stochasticHiken[i-1]['k'] < stochasticHiken[i-1]['d']):
-                    try:
-                        if doji[i]:
-                            if i != 0:
-                                swingIndex = swing.index(i)
-                                if swingIndex > 0:
-                                    temp = maxMin(
-                                        hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
-                                    testList = fibonacciUp(
-                                        temp[0], temp[1])
-                                    # temp = (doji[i][2] * 0.3) / 100
-                                    # stopLoss = (doji[i][2] - temp)
-                                    lastCandle = i
-                                    callTime = dateTime[i]
-                        elif doji[i-1] or doji[i+1] or doji[i+2]:
-                            if i != 0:
-                                swingIndex = swing.index(i)
-                                if swingIndex > 0:
-                                    temp = maxMin(
-                                        hikenCandle[swing[swingIndex-1] + 4: swing[swingIndex] + 4])
-                                    testList = fibonacciUp(
-                                        temp[0], temp[1])
-                                    # temp = (doji[i-1][2] * 0.3) / 100
-                                    # stopLoss = (doji[i-1][2] - temp)
-                                    lastCandle = i
-                                    callTime = dateTime[i]
-                    except (IndexError):
-                        pass
-
-            try:
-                h_l = maxMin(hikenCandle[lastCandle + 5:])
-                if (testList[-1][0] > testList[-1][5]):
-                    if (h_l[0] >= testList[-1][1] and h_l[0] < testList[-1][2]):
-                        status = "Target 1 Reached"
-                    elif (h_l[0] >= testList[-1][2] and h_l[0] < testList[-1][3]):
-                        status = "Target 2 Reached"
-                    elif (h_l[0] >= testList[-1][3]) and h_l[0] < testList[-1][4]:
-                        status = "Target 3 Reached"
-                    elif (h_l[0] >= testList[-1][4]):
-                        status = "Final Target Reached"
-                    elif (h_l[1] <= testList[-1][5]):
-                        status = "Stop Loss has occured"
-                    else:
-                        status = "Awaiting Targets"
+            if (call > stopLoss):
+                if(high >= Target1 and high < Target2):
+                    status = "Target 1 Reached"
+                elif(high >= Target2 and high < Target3):
+                    status = "Target 2 Reached"
+                elif(high >= Target3 and high < Target4):
+                    status = "Target 3 Reached"
+                elif(high >= Target4):
+                    status = "Final Target Reached"
+                elif(low <= stopLoss):
+                    status = "Stop Loss has occured"
                 else:
-                    if (h_l[1] <= testList[-1][1] and h_l[1] > testList[-1][2]):
-                        status = "Target 1 Reached"
-                    elif (h_l[1] <= testList[-1][2] and h_l[1] > testList[-1][3]):
-                        status = "Target 2 Reached"
-                    elif (h_l[1] <= testList[-1][3]) and h_l[1] > testList[-1][4]:
-                        status = "Target 3 Reached"
-                    elif (h_l[1] <= testList[-1][4]):
-                        status = "Final Target Reached"
-                    elif (h_l[0] >= testList[-1][5]):
-                        status = "Stop Loss has occured"
-                    else:
-                        status = "Awaiting Targets"
+                    status = "Awaiting Targets"
+            
+            else:
+                if(low <= Target1 and low > Target2):
+                    status = "Target 1 Reached"
+                elif(low <= Target2 and low > Target3):
+                    status = "Target 2 Reached"
+                elif(low <= Target3 and low > Target4):
+                    status = "Target 3 Reached"
+                elif(low <= Target4):
+                    status = "Final Target Reached"
+                elif(high >= stopLoss):
+                    status = "Stop Loss has occured"
+                else:
+                    status = "Awaiting Targets"
 
-                context = {
-                    "symbol": historical_data['CH_SYMBOL'][1],
-                    "date": callTime,
-                    "call": round(testList[-1][0], 2),
-                    "stop_loss": round(testList[-1][5], 2),
-                    "target_1": round(testList[-1][1], 2),
-                    "target_2": round(testList[-1][2], 2),
-                    "target_3": round(testList[-1][3], 2),
-                    "target_4": round(testList[-1][4], 2),
-                    "status": status,
+            context = {
+                "stock_data": stock_data,
+                "status": status
                 }
-            except(ValueError):
-                status = "Awaiting Targets"
-                context = {
-                    "symbol": historical_data['CH_SYMBOL'][1],
-                    "date": callTime,
-                    "call": round(testList[-1][0], 2),
-                    "stop_loss": round(testList[-1][5], 2),
-                    "target_1": round(testList[-1][1], 2),
-                    "target_2": round(testList[-1][2], 2),
-                    "target_3": round(testList[-1][3], 2),
-                    "target_4": round(testList[-1][4], 2),
-                    "status": status,
-                    }
+        else:
+            error = "This ticker is not supported"
+            context = {
+                "error": error
+            }
 
-
-        except (KeyError):
-            keyerror = "Please provide a correct ticker"
-            context = { "keyerror": keyerror }
+        
     else:
         context = { "none": None }
-
-
     return render(request, 'main/search.html',context)
