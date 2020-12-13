@@ -80,8 +80,8 @@ def fibonacciUp(price_max, price_min):
     return entryTargets
 
 def Computation():
-    symbols = ['SBIN','BAJFINANCE','ULTRACEMCO','RELIANCE','MARUTI','TCS','PEL','INFY','TATASTEEL',
-                'ASIANPAINT','GAIL','ADANIPORTS','BPCL'
+    symbols = ['SBIN', 'BAJFINANCE', 'ULTRACEMCO', 'RELIANCE', 'MARUTI', 'TCS', 'PEL', 'INFY', 'TATASTEEL',
+               'ASIANPAINT', 'GAIL', 'ADANIPORTS', 'BPCL'
     ]
 
     for symbol in symbols:
@@ -199,12 +199,15 @@ def Computation():
                                     last_closedPrice = closedPrice[i]
                     except (IndexError):
                         pass
-
+            
+            try:
+                h_l = maxMin(hikenCandle[lastCandle + 5:])
+            except(ValueError):
+                h_l = [0,0]
 
         except (KeyError):
             keyerror = "Please provide a correct ticker"
         
-        h_l = maxMin(hikenCandle[lastCandle + 5:])
 
 
         # for i in range(len(testList[-1])):
@@ -275,38 +278,46 @@ def search(request):
             high        = endOfDay.objects.filter(pk=symbol).values('high')[0]['high']
             low         = endOfDay.objects.filter(pk=symbol).values('low')[0]['low']
 
-            if (call > stopLoss):
-                if(high >= Target1 and high < Target2):
-                    status = "Target 1 Reached"
-                elif(high >= Target2 and high < Target3):
-                    status = "Target 2 Reached"
-                elif(high >= Target3 and high < Target4):
-                    status = "Target 3 Reached"
-                elif(high >= Target4):
-                    status = "Final Target Reached"
-                elif(low <= stopLoss):
-                    status = "Stop Loss has occured"
-                else:
-                    status = "Awaiting Targets"
+            if(high == 0 and low == 0):
+                status = "Awaiting Targets"
+                context = {
+                    "stock_data": stock_data,
+                    "status": status
+                }
             
             else:
-                if(low <= Target1 and low > Target2):
-                    status = "Target 1 Reached"
-                elif(low <= Target2 and low > Target3):
-                    status = "Target 2 Reached"
-                elif(low <= Target3 and low > Target4):
-                    status = "Target 3 Reached"
-                elif(low <= Target4):
-                    status = "Final Target Reached"
-                elif(high >= stopLoss):
-                    status = "Stop Loss has occured"
+                if (call > stopLoss):
+                    if(high >= Target1 and high < Target2):
+                        status = "Target 1 Reached"
+                    elif(high >= Target2 and high < Target3):
+                        status = "Target 2 Reached"
+                    elif(high >= Target3 and high < Target4):
+                        status = "Target 3 Reached"
+                    elif(high >= Target4):
+                        status = "Final Target Reached"
+                    elif(low <= stopLoss):
+                        status = "Stop Loss has occured"
+                    else:
+                        status = "Awaiting Targets"
+                
                 else:
-                    status = "Awaiting Targets"
+                    if(low <= Target1 and low > Target2):
+                        status = "Target 1 Reached"
+                    elif(low <= Target2 and low > Target3):
+                        status = "Target 2 Reached"
+                    elif(low <= Target3 and low > Target4):
+                        status = "Target 3 Reached"
+                    elif(low <= Target4):
+                        status = "Final Target Reached"
+                    elif(high >= stopLoss):
+                        status = "Stop Loss has occured"
+                    else:
+                        status = "Awaiting Targets"
 
-            context = {
-                "stock_data": stock_data,
-                "status": status
-                }
+                context = {
+                    "stock_data": stock_data,
+                    "status": status
+                    }
         else:
             error = "This ticker is not supported"
             context = {
