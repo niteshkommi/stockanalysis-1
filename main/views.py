@@ -101,6 +101,7 @@ def Computation():
         swing = []
         dateTime = []
         closedPrice = []
+        
 
         try:
             api_result = requests.get(
@@ -115,6 +116,7 @@ def Computation():
                 closePrice.append(stock_data['close'])
                 dates.append(stock_data['date'])
             curr_date = api_response['data']['eod'][0]['date']
+            today_closePrice = api_response['data']['eod'][0]['close']
 
             candle = HEIKIN(openPrice[n], highPrice[n],
                             lowPrice[n], closePrice[n], openPrice[n+1],
@@ -229,7 +231,7 @@ def Computation():
             data = endOfDay.objects.get(symbol=symbol)
             data.date = callTime[:10] 
             data.currDate = curr_date[:10]
-            data.closePrice = api_response['data']['eod'][0]['close']
+            data.closePrice = today_closePrice
             data.call = testList[-1][0]
             data.stopLoss = testList[-1][5]
             data.Target1 = testList[-1][1]
@@ -240,7 +242,7 @@ def Computation():
             data.low = h_l[1]
         
         else:
-            data = endOfDay(symbol=symbol, date=callTime[:10], currDate=curr_date[:10], closePrice=api_response['data']['eod'][0]['close'],
+            data = endOfDay(symbol=symbol, date=callTime[:10], currDate=curr_date[:10], closePrice=today_closePrice,
                                 call=testList[-1][0], stopLoss=testList[-1][5], Target1=testList[-1][1], Target2=testList[-1][2], Target3=testList[-1][3], Target4=testList[-1][4],
                                 high = h_l[0],low=h_l[1]
                                 )
