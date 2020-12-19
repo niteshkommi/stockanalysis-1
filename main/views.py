@@ -223,7 +223,7 @@ def Computation():
 
         # Adjusting the difference
         diff = round(hiken_closedPrice - testList[-1][0], 2)
-        for i in range(5):
+        for i in range(6):
             testList[-1][i] = round(testList[-1][i] + diff, 2)
 
         
