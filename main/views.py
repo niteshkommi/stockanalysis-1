@@ -81,11 +81,13 @@ def fibonacciUp(price_max, price_min):
 
 def Computation():
     symbols = ['SBIN', 'BAJFINANCE', 'ULTRACEMCO', 'RELIANCE', 'MARUTI', 'TCS', 'PEL', 'INFY', 'TATASTEEL',
-               'ASIANPAINT', 'GAIL', 'ADANIPORTS', 'BPCL','SHREECEM','ICICIBANK','HDFCBANK','ONGC','UPL',
-               'LT','TATAMOTORS','KOTAKBANK','AXISBANK','DRREDDY','BHARTIARTL','NTPC','ITC','JSWSTEEL',
-               'COALINDIA','HDFC','NMDC','INDUSINDBK','HEROMOTOCO','EICHERMOT','SUNPHARMA','WIPRO','HUL',
-               'M&M','TECHM','DIVISLAB','BAJAJ_AUTO'
+               'ASIANPAINT','DIVISLAB','BAJAJ_AUTO'
     ]
+
+    ''' 'GAIL', 'ADANIPORTS', 'BPCL','SHREECEM','ICICIBANK','HDFCBANK','ONGC','UPL',
+    'LT', 'TATAMOTORS', 'KOTAKBANK', 'AXISBANK', 'DRREDDY', 'BHARTIARTL', 'NTPC', 'ITC', 'JSWSTEEL',
+    'COALINDIA', 'HDFC', 'NMDC', 'INDUSINDBK', 'HEROMOTOCO', 'EICHERMOT', 'SUNPHARMA', 'WIPRO', 'HUL',
+    'M&M', 'TECHM', '''
 
     for symbol in symbols:
         n = 48
