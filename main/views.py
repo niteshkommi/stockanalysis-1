@@ -10,7 +10,7 @@ from .models import endOfDay
 
 entryTargets = []
 params = {
-    'access_key': 'd0f9f1d896641cb03a9849109b690917'
+    'access_key': '56f867af559034d445cf6e5447ee0e54'
 }
 
 def isDoji(out):
@@ -81,13 +81,12 @@ def fibonacciUp(price_max, price_min):
 
 def Computation():
     symbols = ['SBIN', 'BAJFINANCE', 'ULTRACEMCO', 'RELIANCE', 'MARUTI', 'TCS', 'PEL', 'INFY', 'TATASTEEL',
-               'ASIANPAINT','DIVISLAB','BAJAJ_AUTO'
+               'ASIANPAINT','DIVISLAB','BAJAJ_AUTO','GAIL', 'ADANIPORTS', 'BPCL','SHREECEM','ICICIBANK','HDFCBANK','ONGC','UPL',
+                'LT', 'TATAMOTORS', 'KOTAKBANK', 'AXISBANK', 'DRREDDY', 'BHARTIARTL', 'NTPC', 'ITC', 'JSWSTEEL',
+                'COALINDIA', 'HDFC', 'NMDC', 'INDUSINDBK', 'HEROMOTOCO', 'EICHERMOT', 'SUNPHARMA', 'WIPRO', 'HUL',
+                'M&M', 'TECHM',
     ]
 
-    ''' 'GAIL', 'ADANIPORTS', 'BPCL','SHREECEM','ICICIBANK','HDFCBANK','ONGC','UPL',
-    'LT', 'TATAMOTORS', 'KOTAKBANK', 'AXISBANK', 'DRREDDY', 'BHARTIARTL', 'NTPC', 'ITC', 'JSWSTEEL',
-    'COALINDIA', 'HDFC', 'NMDC', 'INDUSINDBK', 'HEROMOTOCO', 'EICHERMOT', 'SUNPHARMA', 'WIPRO', 'HUL',
-    'M&M', 'TECHM', '''
 
     for symbol in symbols:
         n = 48
