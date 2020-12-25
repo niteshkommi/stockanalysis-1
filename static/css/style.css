@@ -1,6 +1,13 @@
+/* E5E5E5, 092E4E, 69C1D1 */
 * {
   margin: 0;
   padding: 0;
+}
+
+:root {
+  --primaryColor: #092E4E;
+  --secondaryColor: #69C1D1;
+  --grey: #E5E5E5;
 }
 
 .custom-select {
@@ -22,12 +29,130 @@ table thead th {
   color: #00665c !important;
 }
 
+/* Address-bar */
+.address-bar-wrapper {
+  background: #E5E5E5;
+}
+
+.address-bar-wrapper .address-bar {
+  padding: 0 1rem;
+}
+
+.address-bar-wrapper .address-bar ul {
+  margin: 0;
+  list-style-type: none;
+}
+
+.address-bar-wrapper .address-bar li {
+  margin: 0 0.5rem;
+  font-size: 0.85rem;
+  display: inline-block;
+}
+
+.address-bar-wrapper .address-bar li a {
+  color: var(--primaryColor);
+  text-decoration: none;
+}
+
+/* Nav Bar */
+.navigation {
+  padding: 0 1rem;
+}
+
+.navigation .nav-logo {
+  height: 3rem;
+  overflow: hidden;
+}
+
+.navigation .nav-logo img {
+  height: 100%;
+  width: 100%;
+}
+
+.navigation .nav-buttons a:nth-child(1) {
+  border-radius: 3px;
+  color: var(--primaryColor);
+  border: 1px solid var(--primaryColor);
+}
+
+.navigation .nav-buttons a:nth-child(1):hover {
+  color: #fefefe;
+  background: var(--primaryColor);
+}
+
+.navigation .nav-buttons a:nth-child(2) {
+  border-radius: 3px;
+  color: #fefefe;
+  background: var(--primaryColor);
+  border: 1px solid transparent;
+}
+
+.navigation .nav-buttons a:nth-child(2):hover {
+  color: var(--primaryColor);
+  border: 1px solid var(--primaryColor);
+  background: #fefefe;
+}
+
 .alert {
   border-radius: 5px;
   position: relative;
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
+}
+
+.hero-wrapper {
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.hero-wrapper .bar-graph {
+  background: var(--primaryColor);
+  width: 100%;
+}
+
+.hero-wrapper .bar-graph img {
+  width: 100%;
+}
+
+.hero-wrapper .hero {
+  background: var(--secondaryColor);
+  overflow: hidden;
+}
+
+.hero-wrapper .hero .hero-img {
+  width: 15rem;
+  overflow: hidden;
+  -webkit-transform: rotateZ(-30deg);
+          transform: rotateZ(-30deg);
+}
+
+.hero-wrapper .hero .hero-img img {
+  height: 100%;
+  width: 100%;
+}
+
+.hero-wrapper .hero .hero-content {
+  position: relative;
+}
+
+.hero-wrapper .hero .hero-content h2 {
+  font-weight: 600;
+  color: #fefefe;
+  text-transform: uppercase;
+  font-size: 3rem;
+}
+
+.hero-wrapper .hero .hero-content a {
+  border-radius: 3px;
+  color: #fefefe;
+  background: var(--primaryColor);
+  border: 1px solid transparent;
+}
+
+.hero-wrapper .hero .hero-content a:hover {
+  border: 1px solid var(--primaryColor);
+  background: #06192b;
 }
 
 .wrapper {

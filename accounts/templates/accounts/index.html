@@ -4,15 +4,38 @@
 {% block title %} Stock Analysis and Prediction {% endblock %}
 {% block content %}
 
-<div class="wrapper">
+
+<div class="hero-wrapper">
+    <div class="bar-graph">
+        <img src="{% static 'images/Group.png' %}">
+    </div>
+    <div class="hero row">
+        <div class="hero-img-wrapper col-lg-6">
+            <div class="hero-img">
+                <img src="{% static 'images/invest.svg' %}">
+            </div>
+        </div>
+        <div class="hero-content-wrapper col-lg-6">
+            <div class="hero-content">
+                <h2>Our Alogrithm,</h2>
+                <h2>Your Success.</h2>
+                
+                <a href="#" class="btn"> Register Now</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <div class="wrapper">
     <div class="landing-wrapper">
         <h2>
             Stock Analysis and Prediction System
         </h2>
-        <img src="{% static 'images/analysis.svg' %}" alt=""> <br>
+        <img src="{% static 'images/analysis.svg' %}""> <br>
         <a href="{% url 'login' %}">Get Started</a>
         <a href="#">About Us</a>
     </div>
-</div>
+</div> -->
 
 {% endblock %}
