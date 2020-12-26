@@ -1,13 +1,17 @@
 /* E5E5E5, 092E4E, 69C1D1 */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:wght@500&display=swap");
 * {
   margin: 0;
   padding: 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 :root {
   --primaryColor: #092E4E;
   --secondaryColor: #69C1D1;
   --grey: #E5E5E5;
+  --heading: 'Poppins', sans-serif;
+  --para: 'Roboto', sans-serif;
 }
 
 .custom-select {
@@ -109,6 +113,7 @@ table thead th {
 .hero-wrapper .bar-graph {
   background: var(--primaryColor);
   width: 100%;
+  padding-top: 2rem;
 }
 
 .hero-wrapper .bar-graph img {
@@ -121,18 +126,20 @@ table thead th {
 }
 
 .hero-wrapper .hero .hero-img {
-  width: 15rem;
+  height: 20rem;
   overflow: hidden;
-  -webkit-transform: rotateZ(-30deg);
-          transform: rotateZ(-30deg);
 }
 
 .hero-wrapper .hero .hero-img img {
-  height: 100%;
-  width: 100%;
+  -webkit-transform: translate(80%, 20%) rotateZ(-20deg);
+          transform: translate(80%, 20%) rotateZ(-20deg);
+  width: 50%;
+  height: auto;
 }
 
 .hero-wrapper .hero .hero-content {
+  -webkit-transform: translate(0, 45%);
+          transform: translate(0, 45%);
   position: relative;
 }
 
@@ -141,9 +148,11 @@ table thead th {
   color: #fefefe;
   text-transform: uppercase;
   font-size: 3rem;
+  letter-spacing: 0.1rem;
 }
 
 .hero-wrapper .hero .hero-content a {
+  margin-top: 0.5rem;
   border-radius: 3px;
   color: #fefefe;
   background: var(--primaryColor);
@@ -152,7 +161,22 @@ table thead th {
 
 .hero-wrapper .hero .hero-content a:hover {
   border: 1px solid var(--primaryColor);
-  background: #06192b;
+  background: #051320;
+}
+
+/* Service Section */
+.features-wrapper {
+  padding: 4rem 0;
+}
+
+.features-wrapper ul {
+  font-size: 1.5rem;
+  list-style-type: none;
+  color: var(--primaryColor);
+}
+
+.features-wrapper ul li {
+  margin: 1rem 0;
 }
 
 .wrapper {

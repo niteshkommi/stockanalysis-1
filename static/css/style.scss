@@ -1,13 +1,18 @@
 /* E5E5E5, 092E4E, 69C1D1 */
 
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Roboto:wght@500&display=swap');
+
 *{
     margin: 0;
     padding: 0;
+    font-family: 'Poppins', sans-serif;;
 }
 :root {
     --primaryColor: #092E4E;
     --secondaryColor: #69C1D1;
     --grey: #E5E5E5;
+    --heading: 'Poppins', sans-serif;
+    --para: 'Roboto', sans-serif;
 }
 .custom-select{
     font-size: 0.85rem;
@@ -108,6 +113,7 @@ table{
     .bar-graph{
         background: var(--primaryColor);
         width: 100%;
+        padding-top: 2rem;
 
         img{
             width: 100%;
@@ -119,18 +125,18 @@ table{
         overflow: hidden;
 
         .hero-img{
-            width: 15rem;
+            height: 20rem;
             overflow: hidden;
-            transform: rotateZ(-30deg);
             
             img{
-                height: 100%;
-                width: 100%;
+                transform: translate(80%,20%) rotateZ(-20deg);
+                width: 50%;
+                height: auto;
             }
         }
 
         .hero-content{
-            // transform: translate(0,35%);
+            transform: translate(0,45%);
             position: relative;
 
             h2{
@@ -138,9 +144,11 @@ table{
                 color: #fefefe;
                 text-transform: uppercase;
                 font-size: 3rem;
+                letter-spacing: 0.1rem;
             }
 
             a{
+                margin-top: 0.5rem;
                 border-radius: 3px;
                 color: #fefefe;
                 background: var(--primaryColor);
@@ -148,10 +156,27 @@ table{
 
                 &:hover{
                     border: 1px solid var(--primaryColor);;
-                    background: #06192b;
+                    background: #051320;
                 }
             }
         }
+    }
+}
+
+/* Service Section */
+.features-wrapper{
+    padding: 4rem 0;
+
+    ul{
+        font-size: 1.5rem;
+        list-style-type: none;
+        color: var(--primaryColor);
+
+        li{
+            margin: 1rem 0;
+        }
+    }
+    .features-left{
     }
 }
 
