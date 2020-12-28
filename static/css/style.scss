@@ -136,7 +136,7 @@ table{
         }
 
         .hero-content{
-            transform: translate(0,45%);
+            transform: translate(0,40%);
             position: relative;
 
             h2{
@@ -149,6 +149,7 @@ table{
 
             a{
                 margin-top: 0.5rem;
+                font-size: 1rem;
                 border-radius: 3px;
                 color: #fefefe;
                 background: var(--primaryColor);
@@ -163,12 +164,13 @@ table{
     }
 }
 
-/* Service Section */
+/* Features Section */
 .features-wrapper{
+    max-width: 100%;
     padding: 4rem 0;
 
     ul{
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         list-style-type: none;
         color: var(--primaryColor);
 
@@ -176,7 +178,105 @@ table{
             margin: 1rem 0;
         }
     }
-    .features-left{
+}
+
+/* Services Offered */
+.services-wrapper{
+    max-width: 100%;
+    padding: 3rem 1.75rem;
+    background: #F1F5F9;
+
+    .services{
+        padding: 1rem 1.5rem;
+
+        .services-inner{
+            text-align: center;
+            color: var(--primaryColor);
+
+            h5{
+                font-weight: 600;
+            }
+
+            hr{
+                border-color: var(--primaryColor);
+            }
+        }
+    }
+}
+
+/* news Offered */
+.news-div{
+    max-width: 100%;
+    padding: 3rem 1.75rem;
+    background: var(--secondaryColor);
+    overflow: hidden;
+    text-align: center;
+
+    h4{
+        color: #fefefe;
+        font-weight: 600;
+        font-size: 2rem;
+    }
+
+    .news{
+        padding: 1rem 1.5rem;
+
+        img{
+            width: 100%;
+            height: 10rem;
+            border-radius: 10px;
+            transform: scale(1.1);
+        }
+
+        .news-inner{
+            padding: 2rem 1rem;
+            border-radius: 10px;
+            height: 12rem;
+            background: #fefefe;
+            color: var(--primaryColor);
+
+            h5{
+                font-weight: 600;
+            }
+
+            hr{
+                border-color: var(--primaryColor);
+            }
+        }
+    }
+}
+
+/* Support */
+.support-wrapper{
+    padding: 1.75rem;
+    max-width: 100%;
+    overflow: hidden;
+
+    .support-inner{
+        color: var(--primaryColor);
+        position: absolute;
+        top: 50%;
+        left: 30%;
+        transform: translate(-20%,-50%);
+
+        h2{
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        a{
+            margin-top: 0.5rem;
+            font-size: 1rem;
+            border-radius: 3px;
+            color: #fefefe;
+            background: var(--primaryColor);
+            border: 1px solid transparent;
+
+            &:hover{
+                border: 1px solid var(--primaryColor);;
+                background: #051320;
+            }
+        }
     }
 }
 

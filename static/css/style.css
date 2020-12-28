@@ -138,8 +138,8 @@ table thead th {
 }
 
 .hero-wrapper .hero .hero-content {
-  -webkit-transform: translate(0, 45%);
-          transform: translate(0, 45%);
+  -webkit-transform: translate(0, 40%);
+          transform: translate(0, 40%);
   position: relative;
 }
 
@@ -153,6 +153,7 @@ table thead th {
 
 .hero-wrapper .hero .hero-content a {
   margin-top: 0.5rem;
+  font-size: 1rem;
   border-radius: 3px;
   color: #fefefe;
   background: var(--primaryColor);
@@ -164,19 +165,122 @@ table thead th {
   background: #051320;
 }
 
-/* Service Section */
+/* Features Section */
 .features-wrapper {
+  max-width: 100%;
   padding: 4rem 0;
 }
 
 .features-wrapper ul {
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   list-style-type: none;
   color: var(--primaryColor);
 }
 
 .features-wrapper ul li {
   margin: 1rem 0;
+}
+
+/* Services Offered */
+.services-wrapper {
+  max-width: 100%;
+  padding: 3rem 1.75rem;
+  background: #F1F5F9;
+}
+
+.services-wrapper .services {
+  padding: 1rem 1.5rem;
+}
+
+.services-wrapper .services .services-inner {
+  text-align: center;
+  color: var(--primaryColor);
+}
+
+.services-wrapper .services .services-inner h5 {
+  font-weight: 600;
+}
+
+.services-wrapper .services .services-inner hr {
+  border-color: var(--primaryColor);
+}
+
+/* news Offered */
+.news-div {
+  max-width: 100%;
+  padding: 3rem 1.75rem;
+  background: var(--secondaryColor);
+  overflow: hidden;
+  text-align: center;
+}
+
+.news-div h4 {
+  color: #fefefe;
+  font-weight: 600;
+  font-size: 2rem;
+}
+
+.news-div .news {
+  padding: 1rem 1.5rem;
+}
+
+.news-div .news img {
+  width: 100%;
+  height: 10rem;
+  border-radius: 10px;
+  -webkit-transform: scale(1.1);
+          transform: scale(1.1);
+}
+
+.news-div .news .news-inner {
+  padding: 2rem 1rem;
+  border-radius: 10px;
+  height: 12rem;
+  background: #fefefe;
+  color: var(--primaryColor);
+}
+
+.news-div .news .news-inner h5 {
+  font-weight: 600;
+}
+
+.news-div .news .news-inner hr {
+  border-color: var(--primaryColor);
+}
+
+/* Support */
+.support-wrapper {
+  padding: 1.75rem;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.support-wrapper .support-inner {
+  color: var(--primaryColor);
+  position: absolute;
+  top: 50%;
+  left: 30%;
+  -webkit-transform: translate(-20%, -50%);
+          transform: translate(-20%, -50%);
+}
+
+.support-wrapper .support-inner h2 {
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+
+.support-wrapper .support-inner a {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+  border-radius: 3px;
+  color: #fefefe;
+  background: var(--primaryColor);
+  border: 1px solid transparent;
+}
+
+.support-wrapper .support-inner a:hover {
+  border: 1px solid var(--primaryColor);
+  background: #051320;
 }
 
 .wrapper {
