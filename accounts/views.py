@@ -3,11 +3,36 @@ from .forms import UserRegisterForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from main.decorators import unauthenticated_user
+from newsapi import NewsApiClient
 
 
 @unauthenticated_user
 def index(request):
-    return render(request, 'accounts/index.html')
+
+    newsapi = NewsApiClient(api_key="a59e5f24831a4322b535578654582973")
+    topheadlines = newsapi.get_top_headlines(category='business', country='in')
+    articles = topheadlines['articles']
+
+    desc = []
+    news = []
+    img = []
+    author = []
+    publishedAt = []
+    url = []
+
+    for i in range(len(articles)):
+        myarticles = articles[i]
+
+        news.append(myarticles['title'])
+        desc.append(myarticles['description'])
+        img.append(myarticles['urlToImage'])
+        author.append(myarticles['author'])
+        publishedAt.append(myarticles['publishedAt'])
+        url.append(myarticles['url'])
+
+    mylist = zip(news[:3], desc, img, author, publishedAt, url)
+
+    return render(request, 'accounts/index.html', context={"mylist": mylist})
 
 
 @unauthenticated_user

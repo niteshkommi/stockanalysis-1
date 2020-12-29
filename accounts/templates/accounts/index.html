@@ -12,7 +12,7 @@
     <div class="hero row">
         <div class="hero-img-wrapper col-lg-6">
             <div class="hero-img">
-                <img src="{% static 'images/invest.svg' %}">
+                <img src="{% static 'images/temp.jpg' %}">
             </div>
         </div>
         <div class="hero-content-wrapper col-lg-6">
@@ -29,7 +29,7 @@
 <!-- features Section  -->
 <div class="features-wrapper row">
     <div class="features-left-wrapper col-lg-4 p-0">
-        <div class="features-left d-flex justify-content-end">
+        <div class="features-left d-flex justify-content-center">
             <ul>
                 <li><i class="fas fa-arrow-right"></i> Time Frame Flexibility</li>
                 <li><i class="fas fa-arrow-right"></i> Swing Trades</li>
@@ -37,9 +37,11 @@
             </ul>
         </div>
     </div>
-    <div class="features-center-wrapper col-lg-3"></div>
-    <div class="features-right-wrapper col-lg-5">
-        <div class="features-right">
+    <div class="features-center-wrapper col-lg-4">
+        <img src="{% static 'images/candle.png' %}" alt="">
+    </div>
+    <div class="features-right-wrapper col-lg-4">
+        <div class="features-right d-flex justify-content-start">
             <ul>
                 <li><i class="fas fa-arrow-right"></i> Downloadable Reports</li>
                 <li><i class="fas fa-arrow-right"></i> Diverse Targets</li>
@@ -50,10 +52,10 @@
 </div>
 
 <!-- Services Offered  -->
-<div class="services-wrapper row">
+<div class="services-wrapper row m-0">
     <div class="services-left-wrapper col-lg-4 p-0">
-        <div class="services d-flex align-items-center">
-            <img src="{% static 'images/clinic.png' %}" alt="">
+        <div class="services">
+            <img src="{% static 'images/equity.png' %}" alt="">
             <div class="services-inner">
                 <h5>EQUITY, CURRENCY & FOREX</h5>
                 <hr>
@@ -63,8 +65,8 @@
         </div>
     </div>
     <div class="services-center-wrapper col-lg-4 p-0">
-        <div class="services d-flex align-items-center">
-            <img src="{% static 'images/clinic.png' %}" alt="">
+        <div class="services">
+            <img src="{% static 'images/tips.png' %}" alt="">
             <div class="services-inner">
                 <h5>DAILY TIPS</h5>
                 <hr>
@@ -74,8 +76,8 @@
         </div>
     </div>
     <div class="services-right-wrapper col-lg-4 p-0">
-        <div class="services d-flex align-items-center">
-            <img src="{% static 'images/clinic.png' %}" alt="">
+        <div class="services">
+            <img src="{% static 'images/security.png' %}" alt="">
             <div class="services-inner">
                 <h5>INNOVATIVE SECURITY</h5>
                 <hr>
@@ -90,36 +92,19 @@
 <div class="news-div">
     <h4>NEWS</h4>
     <div class="news-wrapper row">
-        <div class="news-left-wrapper col-lg-4 p-0">
-            <div class="news">
-                <img src="{% static 'images/graph.png' %}" alt="">
-                <div class="news-inner">
-                    <h5>EQUITY, CURRENCY & FOREX</h5>
-                    <p>Invest In It Tips has everything for you all in one place – Stocks, derivatives, forex, news and exclusive
-                    content. You are all covered!</p>
+        {% for new, des, i, author, publishedAt, url in mylist %}
+        <a href="{{url}}" target="_blank">
+            <div class="news-left-wrapper col-lg-4 p-0">
+                <div class="news">
+                    <img src="{{ i }}" alt="">
+                    <div class="news-inner">
+                        <h5>{{ new | truncatechars:25 }}</h5>
+                        <p>{{ des | truncatechars:100 }}</p>
+                    </div>
                 </div>
+            </a>
             </div>
-        </div>
-        <div class="news-center-wrapper col-lg-4 p-0">
-            <div class="news">
-                <img src="{% static 'images/graph.png' %}" alt="">
-                <div class="news-inner">
-                    <h5>DAILY TIPS</h5>
-                    <p>Invest In It is providing you with all the stock market data you need. Get prepared for a successful day at your
-                    trading desk with Invest In It.</p>
-                </div>
-            </div>
-        </div>
-        <div class="news-right-wrapper col-lg-4 p-0">
-            <div class="news">
-                <img src="{% static 'images/graph.png' %}" alt="">
-                <div class="news-inner">
-                    <h5>INNOVATIVE SECURITY</h5>
-                    <p>We are not requiring you to upload personal data, KYC or other data. Enjoy the full experience without signing up but
-                    consider creating a bookmark for Invest In It.</p>
-                </div>
-            </div>
-        </div>
+        {% endfor %}
     </div>
 </div>
 

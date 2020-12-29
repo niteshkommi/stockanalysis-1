@@ -126,20 +126,20 @@ table thead th {
 }
 
 .hero-wrapper .hero .hero-img {
-  height: 20rem;
+  height: 23rem;
   overflow: hidden;
 }
 
 .hero-wrapper .hero .hero-img img {
-  -webkit-transform: translate(80%, 20%) rotateZ(-20deg);
-          transform: translate(80%, 20%) rotateZ(-20deg);
-  width: 50%;
+  -webkit-transform: translate(60%, 20%) rotateZ(-20deg);
+          transform: translate(60%, 20%) rotateZ(-20deg);
+  width: 55%;
   height: auto;
 }
 
 .hero-wrapper .hero .hero-content {
-  -webkit-transform: translate(0, 40%);
-          transform: translate(0, 40%);
+  -webkit-transform: translate(0, 45%);
+          transform: translate(0, 45%);
   position: relative;
 }
 
@@ -190,10 +190,17 @@ table thead th {
 
 .services-wrapper .services {
   padding: 1rem 1.5rem;
+  text-align: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.services-wrapper .services img {
+  margin-bottom: 1.5rem;
 }
 
 .services-wrapper .services .services-inner {
-  text-align: center;
   color: var(--primaryColor);
 }
 
@@ -218,6 +225,7 @@ table thead th {
   color: #fefefe;
   font-weight: 600;
   font-size: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .news-div .news {
@@ -226,10 +234,10 @@ table thead th {
 
 .news-div .news img {
   width: 100%;
-  height: 10rem;
+  height: 12rem;
   border-radius: 10px;
-  -webkit-transform: scale(1.1);
-          transform: scale(1.1);
+  -webkit-transform: scale(1.05);
+          transform: scale(1.05);
 }
 
 .news-div .news .news-inner {
@@ -280,6 +288,40 @@ table thead th {
 .support-wrapper .support-inner a:hover {
   border: 1px solid var(--primaryColor);
   background: #051320;
+}
+
+/* Footer */
+.footer-wrapper {
+  overflow: hidden;
+  max-width: 100%;
+  background: var(--primaryColor);
+}
+
+.footer-wrapper .footer-img img {
+  height: 30rem;
+}
+
+.footer-wrapper .footer {
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  -webkit-transform: translate(-20%, -50%);
+          transform: translate(-20%, -50%);
+  text-align: center;
+  color: #A9A9A9;
+  font-family: var(--para);
+}
+
+.footer-wrapper .footer img {
+  -webkit-transform: translateX(-2%);
+          transform: translateX(-2%);
+  width: 35rem;
+  margin: 1rem 0;
+}
+
+.footer-wrapper .footer h5 {
+  margin: 2rem 0;
+  line-height: 2rem;
 }
 
 .wrapper {

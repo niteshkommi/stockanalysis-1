@@ -125,18 +125,18 @@ table{
         overflow: hidden;
 
         .hero-img{
-            height: 20rem;
+            height: 23rem;
             overflow: hidden;
             
             img{
-                transform: translate(80%,20%) rotateZ(-20deg);
-                width: 50%;
+                transform: translate(60%,20%) rotateZ(-20deg);
+                width: 55%;
                 height: auto;
             }
         }
 
         .hero-content{
-            transform: translate(0,40%);
+            transform: translate(0,45%);
             position: relative;
 
             h2{
@@ -188,9 +188,14 @@ table{
 
     .services{
         padding: 1rem 1.5rem;
+        text-align: center;
+        align-items: center;
+
+        img{
+            margin-bottom: 1.5rem;
+        }
 
         .services-inner{
-            text-align: center;
             color: var(--primaryColor);
 
             h5{
@@ -216,6 +221,7 @@ table{
         color: #fefefe;
         font-weight: 600;
         font-size: 2rem;
+        margin-bottom: 1.5rem;
     }
 
     .news{
@@ -223,9 +229,9 @@ table{
 
         img{
             width: 100%;
-            height: 10rem;
+            height: 12rem;
             border-radius: 10px;
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .news-inner{
@@ -244,6 +250,7 @@ table{
         }
     }
 }
+
 
 /* Support */
 .support-wrapper{
@@ -275,6 +282,40 @@ table{
                 border: 1px solid var(--primaryColor);;
                 background: #051320;
             }
+        }
+    }
+}
+
+/* Footer */
+.footer-wrapper{
+    overflow: hidden;
+    max-width: 100%;
+    background: var(--primaryColor);
+
+    .footer-img{
+         img{
+             height: 30rem;
+         }
+    }
+
+    .footer{
+        position: absolute;
+        top: 50%;
+        left: 20%;
+        transform: translate(-20%,-50%);
+        text-align: center;
+        color: #A9A9A9;
+        font-family: var(--para);
+
+        img{
+            transform: translateX(-2%);
+            width: 35rem;
+            margin: 1rem 0;
+        }
+
+        h5{
+            margin: 2rem 0;
+            line-height: 2rem;
         }
     }
 }
