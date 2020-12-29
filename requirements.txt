@@ -5,7 +5,6 @@ APScheduler==3.6.3
 asgiref==3.2.10
 async-timeout==3.0.1
 attrs==20.2.0
-bfx-hf-indicators==1.1.0
 blis==0.2.4
 certifi==2020.6.20
 chardet==3.0.4
