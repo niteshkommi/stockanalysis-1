@@ -3,7 +3,7 @@ from .forms import UserRegisterForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from main.decorators import unauthenticated_user
-from newsapi import NewsApiClient
+from newsapi.newsapi_client import NewsApiClient
 
 
 @unauthenticated_user
