@@ -235,7 +235,6 @@ table thead th {
 .news-div .news .news-inner {
   padding: 2rem 1rem;
   border-radius: 10px;
-  height: 12rem;
   background: #fefefe;
   color: var(--primaryColor);
 }
