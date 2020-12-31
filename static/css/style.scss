@@ -5,7 +5,6 @@
 *{
     margin: 0;
     padding: 0;
-    font-family: 'Poppins', sans-serif;;
 }
 :root {
     --primaryColor: #092E4E;
@@ -287,43 +286,13 @@ table{
     }
 }
 
-/* Footer */
-.footer-wrapper{
-    overflow: hidden;
-    max-width: 100%;
-    background: var(--primaryColor);
-
-    .footer-img{
-         img{
-             height: 30rem;
-         }
-    }
-
-    .footer{
-        position: absolute;
-        top: 50%;
-        left: 20%;
-        transform: translate(-20%,-50%);
-        text-align: center;
-        color: #A9A9A9;
-        font-family: var(--para);
-
-        img{
-            transform: translateX(-2%);
-            width: 35rem;
-            margin: 1rem 0;
-        }
-
-        h5{
-            margin: 2rem 0;
-            line-height: 2rem;
-        }
-    }
-}
 
 .wrapper{
     width: 100%;
-    background: #f0f2f5;
+    background-color: var(--primaryColor);
+    background-image: url('../images/graph_bottom.png');
+    background-position: bottom; 
+    background-repeat: no-repeat;
 
     .landing-wrapper{
         position: absolute;
@@ -373,18 +342,11 @@ table{
                 text-align: center;
                 position: absolute;
                 top:50%;
-                left: 10%;
-                transform: translate(0%,-50%);
-
-                h2{
-                    margin-top: 1rem;
-                    color: #009688;
-                    font-family: 'Lobster', cursive;
-                    font-size: 3rem;
-                }
+                left: 50%;
+                transform: translate(-50%,-50%);
 
                 img{
-                    width: 20rem;
+                    width: 30rem;
                 }
             }
         }
@@ -396,41 +358,56 @@ table{
             }
 
             .login-right-wrapper{
-                box-shadow: 3px 3px 12px 10px #ccc;
                 border-radius: 8px;
                 padding: 1.5rem;
-                background: #fff;
+                background: #F1F5F9;
                 width: 26rem;
                 position: relative;
                 top:50%;
                 left: 50%;
                 transform: translate(-50%,-50%);
 
+
+                h5{
+                    font-family: var(--heading);
+                    font-weight: 600;
+                    color: var(--primaryColor);
+                }
+
+                input[type=text],input[type=password],input[type=email]{
+                    padding: 0.5rem;
+                    font-family: Arial, Helvetica, sans-serif;
+                    font-weight: 100;
+                    font-size: 0.9rem;
+                    background: #fefefe;
+                    border: 1px solid var(--primaryColor);
+
+                    &::placeholder{
+                        color: #999;
+                        font-size: 0.9rem;
+                    }
+                }
+
                 input, button, .btn{
                     margin: 0.5rem 0;
                     border-radius: 5px;
                     width: 23rem;
-                    font-weight: 600;
                 }
 
-                input{
-                    font-weight: 400;
-                }
 
                 .hr-text {
                     line-height: 1em;
                     position: relative;
                     outline: 0;
                     border: 0;
-                    color: black;
+                    color: var(--primaryColor);
                     text-align: center;
                     height: 1em;
-                    opacity: .5;
                     &:before {
                         content: '';
                         // use the linear-gradient for the fading effect
                         // use a solid background color for a solid bar
-                        background: linear-gradient(to right, transparent, #818078, transparent);
+                        background: linear-gradient(to right, transparent, var(--primaryColor), transparent);
                         position: absolute;
                         left: 0;
                         top: 50%;
@@ -447,18 +424,84 @@ table{
                         line-height: 1em;
                         // this is really the only tricky part, you need to specify the background color of the container element...
                         color: #818078;
-                        background-color: #fcfcfa;
+                        background-color: #F1F5F9;
                     }
                 }
 
-                h6, a{
+                .submitBtn{
+                    font-family: var(--heading);
+                    background-color: var(--primaryColor);
+                    color: #fefefe;
+
+                    &:hover{
+                        background: #051320;
+                    }
+                }
+                
+                h6{
+                      font-size: 0.85rem;
+                }
+
+                a{
+                    color: var(--primaryColor);
                     font-size: 0.85rem;
+                }
+
+                .linkBtn{
+                    background: #fefefe;
+                    color: var(--primaryColor);
+                    font-size: 0.85rem;
+                    border-color: var(--primaryColor);
+
+                    &:hover{
+                        background: var(--primaryColor);
+                        color: #fefefe;
+                    }
                 }
             }
         }
     }
 }
 
+.nav-bottom{
+    text-align: center;
+    background: #E5E5E5;
+
+    a{
+        margin: 0;
+        padding: 0.5rem 2.5rem;
+        color: var(--primaryColor);
+        border-right: 1px solid var(--primaryColor);
+
+        
+        &:hover{
+            border-right: 1px solid var(--primaryColor);       
+            background: transparent;
+            color: #051320;
+        }
+        &:last-child{
+            border-right: none;
+        }
+    }
+}
+.scanner-wrapper{
+    background: url("../images/graph_bottom.png");
+    background-color: var(--primaryColor);
+    background-repeat: no-repeat;
+    background-position: center;
+    height: 5rem;
+    padding: 1rem 0;
+
+    .scanner-inner{
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+
+        select,button{
+            border-radius: 5px;
+        }
+    }
+}
 .search-form-wrapper{
     padding: 0 2rem;
 
@@ -472,5 +515,39 @@ table{
         position: relative;
         left: 50%;
         transform: translateX(-50%);
+    }
+}
+
+/* Footer */
+.footer-wrapper{
+    overflow: hidden;
+    max-width: 100%;
+    background: var(--primaryColor);
+
+    .footer-img{
+         img{
+             height: 30rem;
+         }
+    }
+
+    .footer{
+        position: absolute;
+        top: 50%;
+        left: 20%;
+        transform: translate(-20%,-50%);
+        text-align: center;
+        color: #A9A9A9;
+        font-family: var(--para);
+
+        img{
+            transform: translateX(-2%);
+            width: 35rem;
+            margin: 1rem 0;
+        }
+
+        h5{
+            margin: 2rem 0;
+            line-height: 2rem;
+        }
     }
 }

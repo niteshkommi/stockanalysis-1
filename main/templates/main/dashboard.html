@@ -1,10 +1,19 @@
-{% extends 'main/base.html' %}
+{% extends 'accounts/base.html' %}
 {% load static %}
+{% block title %} Dashboard {% endblock %}
 {% block content %}
     
-<div class="dashboard-wrapper p-3">
-    <div class="stock-list-wrapper">
-        <!-- <form class="form-inline">
+<div class="nav-bottom">
+    <div class="nav-bottom-inner">
+        <a href="#" class="btn">Dashboard</a>
+        <a href="#" class="btn">Search</a>
+        <a href="#" class="btn">Profile</a>
+        <a href="#" class="btn">About Us</a>
+    </div>
+</div>
+<div class="scanner-wrapper">
+    <div class="scanner-inner">
+        <form class="form-inline m-0">
             <div class="col-auto my-1 p-0 border-0">
                 <select class="custom-select mr-sm-2 bg-light" id="inlineFormCustomSelect">
                     <option selected disabled>SELECT TYPE </option>
@@ -31,10 +40,14 @@
                 </select>
             </div>
             <button type="submit" class="btn btn-raised btn-primary my-2 my-sm-0">scan</button>
-        </form> -->
+        </form>
+    </div>
+</div>
+<div class="dashboard-wrapper p-3">
+    <div class="stock-list-wrapper">
         <div class="row">
             <div class="list-left-wrapper col-12 pl-3 pr-3">
-                <h6 class="text-success mb-3"><strong><u>BUY CALLS:</u></strong></h6>
+                <h6>BUY CALLS</h6>
                 <table class="table table-small table-bordered table-hover text-center">
                     <thead>
                         <tr>

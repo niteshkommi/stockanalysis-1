@@ -254,7 +254,7 @@ def Computation():
 @login_required(login_url='/')
 def dashboard(request):
 
-    Computation()
+    # Computation()
     currDate = endOfDay.objects.filter(pk='SBIN').values('currDate')[0]['currDate']
     stock_data = endOfDay.objects.all().filter(date=currDate)
     context = {
