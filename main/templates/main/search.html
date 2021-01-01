@@ -1,11 +1,12 @@
-{% extends 'main/base.html' %}
+{% extends 'accounts/base.html' %}
 {% load static %}
+{% block title %} Search Stocks {% endblock %}
 {% block content %}
 
 <div class="dashboard-wrapper p-3"></div>
-    <div class="search-form-wrapper">
-         <form method="POST" class="form-inline align-content-end">
-            <!-- <div class="col-auto border-0">
+    <div class="search-form-wrapper d-flex flex-wrap align-content-center">
+         <form method="POST" class="form-inline">
+            <div class="col-auto border-0">
                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                     <option selected disabled>TIME FRAME</option>
                     <optgroup label="HOURS">
@@ -20,7 +21,7 @@
                         <option value="month">1 MONTH</option>
                     </optgroup>
                 </select>
-            </div> -->
+            </div>
             {% csrf_token %}
             <input type="search" name="ticker" placeholder="Enter a Ticker" class="form-control mb-3 mr-sm-2"
                 aria-label="Search" required autofocus="true"> 
@@ -28,16 +29,16 @@
         </form>
         {% if error %}
         <div class="alert alert-warning text-center">
-            <strong>{{ error }}</strong>
+            {{ error }}
         </div>
         {% endif %}
         {% for data in stock_data %}
         <div class="alert alert-success text-center">
-            <strong>{{ status }}</strong>
+            {{ status }}
         </div>
         {% if data.symbol %}
         <table class="table table-bordered text-center">
-            <thead class="thead-light">
+            <thead>
                 <tr>
                     <th scope="col">SYMBOL</th>
                     <th scope="col">DATE</th>

@@ -25,11 +25,24 @@
 table{
 
     thead{
-        background: #e6fffc !important;
+        transform: scale(1.01);
+        background: var(--primaryColor) !important;
+        border-radius: 10px;
         
         th{
             font-weight: 600 !important;
-            color: #00665c !important;
+            color: #fefefe !important;
+        }
+    }
+
+    tbody{
+
+        .emptyTable{
+            display: none;
+
+            &:first-child{
+                display: table-row;
+            }
         }
     }
 }
@@ -500,6 +513,17 @@ table{
         select,button{
             border-radius: 5px;
         }
+    }
+}
+
+.dashboard-wrapper{
+     
+    h4{
+        margin: 1rem 0;
+        text-align: center;
+        font-family: var(--heading);
+        font-weight: 600;
+        color: var(--primaryColor);
     }
 }
 .search-form-wrapper{

@@ -24,12 +24,23 @@
 }
 
 table thead {
-  background: #e6fffc !important;
+  -webkit-transform: scale(1.01);
+          transform: scale(1.01);
+  background: var(--primaryColor) !important;
+  border-radius: 10px;
 }
 
 table thead th {
   font-weight: 600 !important;
-  color: #00665c !important;
+  color: #fefefe !important;
+}
+
+table tbody .emptyTable {
+  display: none;
+}
+
+table tbody .emptyTable:first-child {
+  display: table-row;
 }
 
 /* Address-bar */
@@ -518,6 +529,14 @@ table thead th {
 
 .scanner-wrapper .scanner-inner select, .scanner-wrapper .scanner-inner button {
   border-radius: 5px;
+}
+
+.dashboard-wrapper h4 {
+  margin: 1rem 0;
+  text-align: center;
+  font-family: var(--heading);
+  font-weight: 600;
+  color: var(--primaryColor);
 }
 
 .search-form-wrapper {
