@@ -35,6 +35,56 @@
         </form>
     </div>
 </div>
+<!-- <div class="search-form-wrapper mt-3">
+    {% if error %}
+        <div class="alert alert-warning text-center">
+            {{ error }}
+        </div>
+        {% endif %}
+        {% for data in search_data %}
+        <div class="alert alert-success text-center">
+            {{ status }}
+        </div>
+        {% if data.symbol %}
+        <table class="table table-bordered text-center">
+            <thead>
+                <tr>
+                    <th scope="col">SYMBOL</th>
+                    <th scope="col">DATE</th>
+                    {% if data.call > data.stopLoss %}
+                    <th scope="col">BUY ABOVE</th>
+                    {% else %}
+                    <th scope="col">SELL BELOW</th>
+                    {% endif %}
+                    <th scope="col">STOP LOSS</th>
+                    <th scope="col">TARGET 1</th>
+                    <th scope="col">TARGET 2</th>
+                    <th scope="col">TARGET 3</th>
+                    <th scope="col">TARGET 4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">{{ data.symbol }}</th>
+                    <td>{{ data.date }}</td>
+                    {% if data.call > data.stopLoss %}
+                    <td> <strong class="text-success">{{ data.call }} <i class="fas fa-arrow-up"></i> </strong> </td>
+                    {% else %}
+                    <td> <strong class="text-success">{{ data.call }} <i class="fas fa-arrow-down"></i> </strong> </td>
+                    {% endif %}
+                    <td> <strong class="text-danger">{{ data.stopLoss }}</strong> </td>
+                    <td> {{ data.Target1 }}</td>
+                    <td> {{ data.Target2 }}</td>
+                    <td> {{ data.Target3 }}</td>
+                    <td> {{ data.Target4 }}</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <hr>
+        {% endif %}
+        {% endfor %}
+</div> -->
 <div class="dashboard-wrapper p-3">
     <div class="stock-list-wrapper">
         <div class="row">

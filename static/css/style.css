@@ -83,6 +83,51 @@ table tbody .emptyTable:first-child {
   width: 100%;
 }
 
+.navigation .nav-search input {
+  text-transform: uppercase;
+  padding: 0.5rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 100;
+  font-size: 0.9rem;
+  background: #fefefe;
+  border: 1px solid var(--primaryColor);
+  border-radius: 5px;
+}
+
+.navigation .nav-search input::-webkit-input-placeholder {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.navigation .nav-search input:-ms-input-placeholder {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.navigation .nav-search input::-ms-input-placeholder {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.navigation .nav-search input::placeholder {
+  color: #999;
+  font-size: 0.9rem;
+}
+
+.navigation .nav-search button {
+  border-radius: 5px;
+  text-transform: uppercase;
+  color: #fefefe;
+  background: var(--primaryColor);
+  border: 1px solid transparent;
+}
+
+.navigation .nav-search button:hover {
+  color: var(--primaryColor);
+  border: 1px solid var(--primaryColor);
+  background: #fefefe;
+}
+
 .navigation .nav-buttons a:nth-child(1) {
   border-radius: 3px;
   color: var(--primaryColor);

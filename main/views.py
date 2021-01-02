@@ -254,6 +254,81 @@ def Computation():
 @login_required(login_url='/')
 def dashboard(request):
 
+    if request.method == 'POST':
+        status = ""
+
+        symbol = request.POST.get('ticker').upper()
+
+        stock_data = endOfDay.objects.all().filter(pk=symbol)
+
+        if stock_data:
+            call = endOfDay.objects.filter(pk=symbol).values('call')[0]['call']
+            stopLoss = endOfDay.objects.filter(
+                pk=symbol).values('stopLoss')[0]['stopLoss']
+            Target1 = endOfDay.objects.filter(
+                pk=symbol).values('Target1')[0]['Target1']
+            Target2 = endOfDay.objects.filter(
+                pk=symbol).values('Target2')[0]['Target2']
+            Target3 = endOfDay.objects.filter(
+                pk=symbol).values('Target3')[0]['Target3']
+            Target4 = endOfDay.objects.filter(
+                pk=symbol).values('Target4')[0]['Target4']
+            high = endOfDay.objects.filter(pk=symbol).values('high')[0]['high']
+            low = endOfDay.objects.filter(pk=symbol).values('low')[0]['low']
+
+            if(high == 0 and low == 0):
+                status = "Awaiting Targets"
+                context = {
+                    "stock_data": stock_data,
+                    "status": status
+                }
+
+            else:
+                if (call > stopLoss):
+                    if(high >= Target1 and high < Target2):
+                        status = "Target 1 Reached"
+                    elif(high >= Target2 and high < Target3):
+                        status = "Target 2 Reached"
+                    elif(high >= Target3 and high < Target4):
+                        status = "Target 3 Reached"
+                    elif(high >= Target4):
+                        status = "Final Target Reached"
+                    elif(low <= stopLoss):
+                        status = "Stop Loss has occured"
+                    else:
+                        status = "Awaiting Targets"
+
+                else:
+                    if(low <= Target1 and low > Target2):
+                        status = "Target 1 Reached"
+                    elif(low <= Target2 and low > Target3):
+                        status = "Target 2 Reached"
+                    elif(low <= Target3 and low > Target4):
+                        status = "Target 3 Reached"
+                    elif(low <= Target4):
+                        status = "Final Target Reached"
+                    elif(high >= stopLoss):
+                        status = "Stop Loss has occured"
+                    else:
+                        status = "Awaiting Targets"
+
+                context = {
+                    "stock_data": stock_data,
+                    "status": status
+                }
+                return render(request, 'main/search.html', context)
+        else:
+            error = "This ticker is not supported"
+            context = {
+                "error": error
+            }
+            return render(request, 'main/search.html', context)
+
+    else:
+        context = {"none": None}
+
+
+
     # Computation()
     currDate = endOfDay.objects.filter(pk='SBIN').values('currDate')[0]['currDate']
     stock_data = endOfDay.objects.all().filter(date=currDate)

@@ -3,9 +3,9 @@
 {% block title %} Search Stocks {% endblock %}
 {% block content %}
 
-<div class="dashboard-wrapper p-3"></div>
-    <div class="search-form-wrapper d-flex flex-wrap align-content-center">
-         <form method="POST" class="form-inline">
+<div class="dashboard-wrapper p-2"></div>
+    <div class="search-form-wrapper">
+         <!-- <form method="POST" class="form-inline">
             <div class="col-auto border-0">
                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
                     <option selected disabled>TIME FRAME</option>
@@ -23,10 +23,10 @@
                 </select>
             </div>
             {% csrf_token %}
-            <input type="search" name="ticker" placeholder="Enter a Ticker" class="form-control mb-3 mr-sm-2"
+            <input type="text" name="ticker" placeholder="Enter a Ticker" class="form-control mb-3 mr-sm-2"
                 aria-label="Search" required autofocus="true"> 
             <button type="submit" class="btn btn-outline-success my-5 my-sm-0">SEARCH</button>
-        </form>
+        </form> -->
         {% if error %}
         <div class="alert alert-warning text-center">
             {{ error }}
