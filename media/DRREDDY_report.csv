@@ -1,0 +1,2 @@
+Date,Close_Price,Signal_Date,Call,Stop_Loss,Target_1,Target_2,Target_3,Target_4,Status
+2020-12-30,5241.35,2021-01-01,5174.09,5203.21,5156.07,5141.51,5126.95,5106.22,Stop Loss has occured

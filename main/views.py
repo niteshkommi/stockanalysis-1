@@ -3,7 +3,10 @@ import pandas as pd
 import numpy as np
 from bfxhfindicators import Stochastic
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from accounts.forms import UserProfileUpdate
 
+import csv
 import datetime
 import requests
 from .models import endOfDay
@@ -81,10 +84,10 @@ def fibonacciUp(price_max, price_min):
 
 def Computation():
     symbols = ['SBIN', 'BAJFINANCE', 'ULTRACEMCO', 'RELIANCE', 'MARUTI', 'TCS', 'PEL', 'INFY', 'TATASTEEL',
-               'ASIANPAINT','DIVISLAB','BAJAJ_AUTO','GAIL', 'ADANIPORTS', 'BPCL','SHREECEM','ICICIBANK','HDFCBANK','ONGC','UPL',
-                'LT', 'TATAMOTORS', 'KOTAKBANK', 'AXISBANK', 'DRREDDY', 'BHARTIARTL', 'NTPC', 'ITC', 'JSWSTEEL',
-                'COALINDIA', 'HDFC', 'NMDC', 'INDUSINDBK', 'HEROMOTOCO', 'EICHERMOT', 'SUNPHARMA', 'WIPRO', 'HUL',
-                'M&M', 'TECHM',
+               'ASIANPAINT', 'DIVISLAB', 'BAJAJ_AUTO', 'GAIL', 'ADANIPORTS', 'BPCL', 'SHREECEM', 'ICICIBANK', 'HDFCBANK', 'ONGC', 'UPL',
+               'LT', 'TATAMOTORS', 'KOTAKBANK', 'AXISBANK', 'DRREDDY', 'BHARTIARTL', 'NTPC', 'ITC', 'JSWSTEEL',
+               'COALINDIA', 'HDFC', 'NMDC', 'INDUSINDBK', 'HEROMOTOCO', 'EICHERMOT', 'SUNPHARMA', 'WIPRO', 'HUL',
+               'M&M', 'TECHM',
     ]
 
 
@@ -227,31 +230,109 @@ def Computation():
         for i in range(6):
             testList[-1][i] = round(testList[-1][i] + diff, 2)
 
-        
+
+        call = testList[-1][0]
+        stopLoss = testList[-1][5]
+        high = h_l[0]
+        low = h_l[1]
+        Target1 = testList[-1][1]
+        Target2 = testList[-1][2]
+        Target3 = testList[-1][3]
+        Target4 = testList[-1][4]
+
+        if(high == 0 and low == 0):
+            status = "Awaiting Targets"
+            context = {
+                "stock_data": stock_data,
+                "status": status
+            }
+
+        else:
+            if (call > stopLoss):
+                if(high >= Target1 and high < Target2):
+                    status = "Target 1 Reached"
+                elif(high >= Target2 and high < Target3):
+                    status = "Target 2 Reached"
+                elif(high >= Target3 and high < Target4):
+                    status = "Target 3 Reached"
+                elif(high >= Target4):
+                    status = "Final Target Reached"
+                elif(low <= stopLoss):
+                    status = "Stop Loss has occured"
+                else:
+                    status = "Awaiting Targets"
+
+            else:
+                if(low <= Target1 and low > Target2):
+                    status = "Target 1 Reached"
+                elif(low <= Target2 and low > Target3):
+                    status = "Target 2 Reached"
+                elif(low <= Target3 and low > Target4):
+                    status = "Target 3 Reached"
+                elif(low <= Target4):
+                    status = "Final Target Reached"
+                elif(high >= stopLoss):
+                    status = "Stop Loss has occured"
+                else:
+                    status = "Awaiting Targets"
+
+        filename = settings.MEDIA_ROOT+'/'+symbol+'_report.csv'
+
         if endOfDay.objects.filter(symbol=symbol).exists():
+
+            with open(filename, 'a+', newline='') as f:
+                fieldnames = ['Date', 'Close_Price', 'Signal_Date', 'Call',
+                              'Stop_Loss', 'Target_1', 'Target_2', 'Target_3', 'Target_4', 'Status']
+                thewriter = csv.DictWriter(f, fieldnames=fieldnames)
+
+                thewriter.writerow(
+                    {'Date': callTime[:10], 'Close_Price': today_closePrice, 'Signal_Date': curr_date[:10],
+                     'Call': call, 'Stop_Loss': stopLoss, 'Target_1': Target1,
+                     'Target_2': Target2, 'Target_3': Target3, 'Target_4': Target4,
+                     'Status': status
+                     })
+
             data = endOfDay.objects.get(symbol=symbol)
             data.date = callTime[:10] 
             data.currDate = curr_date[:10]
             data.closePrice = today_closePrice
-            data.call = testList[-1][0]
-            data.stopLoss = testList[-1][5]
-            data.Target1 = testList[-1][1]
-            data.Target2 = testList[-1][2]
-            data.Target3 = testList[-1][3]
-            data.Target4 = testList[-1][4]
-            data.high = h_l[0]
-            data.low = h_l[1]
+            data.call = call
+            data.stopLoss = stopLoss
+            data.Target1 = Target1
+            data.Target2 = Target2
+            data.Target3 = Target3
+            data.Target4 = Target4  
+            data.high = high
+            data.low = low
+            data.status = status
+            data.report = symbol + '_report.csv'
         
         else:
+
+            with open(filename, 'w', newline='') as f:
+                fieldnames = ['Date', 'Close_Price', 'Signal_Date','Call','Stop_Loss','Target_1','Target_2','Target_3','Target_4','Status']
+                thewriter = csv.DictWriter(f,fieldnames=fieldnames)
+
+                thewriter.writeheader()
+
+                thewriter.writerow(
+                    {'Date': callTime[:10], 'Close_Price': today_closePrice, 'Signal_Date': curr_date[:10],
+                     'Call': call, 'Stop_Loss': stopLoss, 'Target_1': Target1,
+                     'Target_2': Target2, 'Target_3': Target3, 'Target_4': Target4,
+                     'Status': status
+                    })
+                
+
             data = endOfDay(symbol=symbol, date=callTime[:10], currDate=curr_date[:10], closePrice=today_closePrice,
-                                call=testList[-1][0], stopLoss=testList[-1][5], Target1=testList[-1][1], Target2=testList[-1][2], Target3=testList[-1][3], Target4=testList[-1][4],
-                                high = h_l[0],low=h_l[1]
+                                call=call, stopLoss=stopLoss, Target1=Target1, Target2=Target2, Target3=Target3, Target4=Target4,
+                            high=high, low=low,status = status, report=symbol +
+                            '_report.csv'
                                 )
 
         data.save()
 
 
-@login_required(login_url='/')
+@login_required(login_url='login')
 def dashboard(request):
 
     if request.method == 'POST':
@@ -339,7 +420,7 @@ def dashboard(request):
     return render(request, 'main/dashboard.html', context)
 
 
-@login_required(login_url='/')
+@login_required(login_url='login')
 def search(request):
 
     if request.method == 'POST':
@@ -409,3 +490,49 @@ def search(request):
     else:
         context = { "none": None }
     return render(request, 'main/search.html',context)
+
+
+@login_required(login_url='login')
+def reports(request):
+
+    if request.method == 'POST':
+        status = ""
+
+        symbol = request.POST.get('ticker').upper()
+
+        stock_data = endOfDay.objects.all().filter(pk=symbol)
+
+        if stock_data:
+            return render(request, 'main/search.html', {'stock_data': stock_data})
+
+        else:
+            return render(request, 'main/search.html', {'error': "This ticker is not supported"})
+
+
+    stock_data = endOfDay.objects.all()
+
+    return render(request, 'main/reports.html',{'stock_data':stock_data})
+
+
+@login_required(login_url='login')
+def profile(request):
+
+    if request.POST:
+        form = UserProfileUpdate(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+
+            return redirect('profile')
+    else:
+        form = UserProfileUpdate(
+            initial={
+                "username": request.user.username,
+                "email": request.user.email,
+            }
+        )
+
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'main/profile.html', context)

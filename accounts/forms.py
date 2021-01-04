@@ -9,3 +9,16 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+
+class UserProfileUpdate(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('first_name','last_name', 'email')
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={'placeholder': 'First Name'}),
+            'last_name': forms.TextInput(attrs={'placeholder': 'Last Name'}),
+            'email': forms.TextInput(attrs={'placeholder': 'E-Mail'}),
+        }

@@ -3,8 +3,8 @@
 {% block title %} Search Stocks {% endblock %}
 {% block content %}
 
-<div class="dashboard-wrapper p-2"></div>
-    <div class="search-form-wrapper">
+<div class="search-wrapper p-2">
+    <div class="search-form-wrapper p-2">
          <!-- <form method="POST" class="form-inline">
             <div class="col-auto border-0">
                 <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
@@ -72,6 +72,10 @@
             </tbody>
         </table>
         {% endif %}
+
+        <h5>Ye Testing Hai : {{ data.status }}</h5>
+
+        <!-- <a href="{{ data.report.url }}"> Download </a> -->
         {% endfor %}
     </div>
 </div>
