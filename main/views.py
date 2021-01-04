@@ -286,7 +286,7 @@ def Computation():
                 thewriter = csv.DictWriter(f, fieldnames=fieldnames)
 
                 thewriter.writerow(
-                    {'Date': callTime[:10], 'Close_Price': today_closePrice, 'Signal_Date': curr_date[:10],
+                    {'Date': curr_date[:10], 'Close_Price': today_closePrice, 'Signal_Date': callTime[:10],
                      'Call': call, 'Stop_Loss': stopLoss, 'Target_1': Target1,
                      'Target_2': Target2, 'Target_3': Target3, 'Target_4': Target4,
                      'Status': status
@@ -316,7 +316,7 @@ def Computation():
                 thewriter.writeheader()
 
                 thewriter.writerow(
-                    {'Date': callTime[:10], 'Close_Price': today_closePrice, 'Signal_Date': curr_date[:10],
+                    {'Date': curr_date[:10], 'Close_Price': today_closePrice, 'Signal_Date': callTime[:10],
                      'Call': call, 'Stop_Loss': stopLoss, 'Target_1': Target1,
                      'Target_2': Target2, 'Target_3': Target3, 'Target_4': Target4,
                      'Status': status
