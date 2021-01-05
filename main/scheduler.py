@@ -5,5 +5,5 @@ from .views import Computation
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(Computation, 'cron', hour='05', minute='45')
+    scheduler.add_job(Computation, 'cron', hour='06', minute='00')
     scheduler.start()
